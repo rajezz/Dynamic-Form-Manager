@@ -2,28 +2,35 @@ import React, { useState } from "react"
 import type { NextPage } from "next"
 import Head from "next/head"
 
+// Library components...
+import Button from "@mui/material/Button"
+
 // Data...
-import { formInputsCheckbox, formInputsRadio, formInputText } from "_data/form-data"
+import {
+	formInputsCheckbox,
+	formInputsRadio,
+	formInputText,
+	formInputSelect
+} from "_data/form-data"
 
 // Components...
 import InputCheckbox from "components/InputCheckbox"
 import InputRadio from "components/InputRadio"
 import InputText from "components/InputText"
+import InputSelect from "components/InputSelect"
 
 const Home: NextPage = () => {
-	const checkboxValues = formInputsCheckbox.reduce<any>(
+	/* const checkboxValues = formInputsCheckbox.reduce<any>(
 		(prevValue, input) => ({ ...prevValue, [input.name]: input.value }),
 		{}
 	)
 	const radioValues = formInputsRadio.reduce<any>(
 		(prevValue, input) => ({ ...prevValue, [input.name]: input.value }),
 		{}
-	)
+	) */
 
-	console.log("Home rendering !! ", checkboxValues, radioValues)
+	// console.log("Home rendering !! ", checkboxValues, radioValues)
 	const [values, setValues] = useState<any>({
-		...checkboxValues,
-		...radioValues
 	})
 
 	const handleChange = (name: string, value: any) => {
@@ -72,6 +79,26 @@ const Home: NextPage = () => {
 							value={values[input.name]}
 						/>
 					))}
+					{formInputSelect.map((input) => (
+						<InputSelect
+							handleChange={(e: any) => {
+								console.log("Selected > ", e)
+								const value = Array.isArray(e)
+									? e.map((elem: any) => elem.value)
+									: e.value
+								handleChange(input.name, value)
+							}}
+							{...input}
+							value={values[input.name]}
+						/>
+					))}
+				</div>
+
+				<div className="output">
+					<div className="title">Output:</div>
+					<div className="content">
+					{JSON.stringify(values, null, 2)}
+					</div>
 				</div>
 			</div>
 			<footer>

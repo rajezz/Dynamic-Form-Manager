@@ -1,4 +1,9 @@
-import { IInputCheckboxProps, IInputProps, IInputRadioProps } from "types/FormInput"
+import {
+	IInputCheckboxProps,
+	IInputTextProps,
+	IInputSelectProps,
+	IInputRadioProps
+} from "types/FormInput"
 
 export const formInputsCheckbox: Array<IInputCheckboxProps> = [
 	{
@@ -27,7 +32,7 @@ export const formInputsRadio: Array<IInputRadioProps> = [
 	}
 ]
 
-export const formInputText: Array<IInputProps> = [
+export const formInputText: Array<IInputTextProps> = [
 	{
 		value: "",
 		name: "name",
@@ -67,6 +72,31 @@ export const formInputText: Array<IInputProps> = [
 		public: true,
 		printable: true,
 		sortOrder: 4
+	}
+]
+
+export const formInputSelect: Array<IInputSelectProps> = [
+	{
+		value: "",
+		name: "experience",
+		label: "Experience",
+		type: "DROPDOWN",
+		required: true,
+		public: true,
+		printable: true,
+		sortOrder: 6,
+		options: ["1", "2", "3", "4", "5"]
+	},
+	{
+		value: [],
+		name: "preferred-location",
+		label: "Preferred Location",
+		type: "MULTI_DROPDOWN",
+		required: true,
+		public: true,
+		printable: true,
+		sortOrder: 6,
+		options: ["Chennai", "Bengaluru", "Hyderabad", "Delhi", "Mumbai"]
 	}
 ]
 

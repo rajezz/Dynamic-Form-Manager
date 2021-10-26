@@ -1,4 +1,16 @@
-export type IInputProps = {
+export interface IInputTextProps {
+	name: string
+	value: string
+	label: string
+	type: string
+	required?: boolean
+	public?: boolean
+	printable?: boolean
+	sortOrder: number
+	handleChange?: any
+}
+
+export interface IInputSelectProps {
 	name: string
 	value: string | string[]
 	label: string
@@ -7,11 +19,16 @@ export type IInputProps = {
 	public?: boolean
 	printable?: boolean
 	sortOrder: number
-	options?: string[]
+	options: Array<string>
 	handleChange?: any
 }
 
-export type IInputCheckboxProps = {
+interface IOption {
+	value: string
+	label: string
+}
+
+export interface IInputCheckboxProps {
 	name: string
 	value: boolean
 	label: string
@@ -23,7 +40,7 @@ export type IInputCheckboxProps = {
 	handleChange?: any
 }
 
-export type IInputRadioProps = {
+export interface IInputRadioProps {
 	name: string
 	value: string
 	label: string

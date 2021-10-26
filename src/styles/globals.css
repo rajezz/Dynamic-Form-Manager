@@ -24,8 +24,47 @@ body {
 }
 
 .form > * {
-  margin-bottom: 0.5rem !important;
-  margin-top: 0.5rem !important;
+	margin-bottom: 0.5rem !important;
+	margin-top: 0.5rem !important;
+}
+
+.form-input label {
+    color: rgba(0, 0, 0, 0.6);
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.4375em;
+    letter-spacing: 0.00938em;
+    padding: 0;
+}
+
+.form-input.required label::after {
+	content: "*";
+	position: relative;
+	top: 2px;
+	font-size: 14px;
+	color: #d72d30;
+	padding-left: 2px;
+	font-weight: 700;
+}
+
+.output {
+	position: fixed;
+	top: 0px;
+	right: 0px;
+	width: 40vw;
+	margin: 2rem;
+	padding: 2rem;
+}
+
+.output .title {
+	font-size: 3rem;
+	font-weight: 600;
+	margin: 1rem;
+}
+.output .content {
+	word-wrap: break-word;
+	font-weight: 500;
+	font-size: 1.25rem;
 }
 
 /* Footer styles */
@@ -49,9 +88,9 @@ footer .section {
 
 footer a {
 	text-decoration: none;
-  color: #002bff;
+	color: #002bff;
 }
 
 footer a:hover {
-    color: #001ca7;
+	color: #001ca7;
 }
