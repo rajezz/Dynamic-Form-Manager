@@ -23,8 +23,9 @@ body {
 	width: 20rem;
 }
 
-.form-input {
-	margin: 0.5rem 0px !important;
+.form > * {
+  margin-bottom: 0.5rem !important;
+  margin-top: 0.5rem !important;
 }
 
 /* Footer styles */
