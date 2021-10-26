@@ -19,10 +19,10 @@ export default function InputRadio({
 	handleChange
 }: IInputRadioProps) {
 	
-	const requiredAttr = required ? { component: "fieldset" } : {}
+	const requiredAttr = required ? { component: "legend" } : {}
 
 	return (
-		<FormControl component="fieldset" key={name}>
+		<FormControl className={`form-input radio`} component="fieldset" key={name}>
 			<FormLabel {...requiredAttr}>{label}</FormLabel>
 			<RadioGroup value={value} onChange={handleChange} aria-label={label}>
 				{options.map((option) => (

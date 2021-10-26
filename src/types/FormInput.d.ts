@@ -2,7 +2,7 @@ export type IInputProps = {
 	name: string
 	value: string | string[]
 	label: string
-	type: "EMAIL" | "PHONE" | "PIN_CODE" | "DROPDOWN" | "MULTI_DROPDOWN" | "DATE"
+	type: string
 	required?: boolean
 	public?: boolean
 	printable?: boolean
