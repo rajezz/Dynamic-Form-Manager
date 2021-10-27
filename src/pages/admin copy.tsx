@@ -6,12 +6,10 @@ import Layout from "layout/Layout"
 // Library components...
 import Button from "@mui/material/Button"
 
-import LoginSection from "section/Login"
-
-export default function Page() {
+export default function Admin() {
 	return (
 		<Layout>
-			<LoginSection />
+			Admin page
 		</Layout>
 	)
 }

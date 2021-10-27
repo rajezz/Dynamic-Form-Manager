@@ -6,7 +6,7 @@ export interface IInputTextProps {
 	required?: boolean
 	public?: boolean
 	printable?: boolean
-	sortOrder: number
+	sortOrder?: number
 	handleChange?: any
 }
 
@@ -18,7 +18,7 @@ export interface IInputSelectProps {
 	required?: boolean
 	public?: boolean
 	printable?: boolean
-	sortOrder: number
+	sortOrder?: number
 	options: Array<string>
 	handleChange?: any
 }
@@ -36,7 +36,7 @@ export interface IInputCheckboxProps {
 	required?: boolean
 	public?: boolean
 	printable?: boolean
-	sortOrder: number
+	sortOrder?: number
 	handleChange?: any
 }
 
@@ -48,7 +48,7 @@ export interface IInputRadioProps {
 	required?: boolean
 	public?: boolean
 	printable?: boolean
-	sortOrder: number
+	sortOrder?: number
 	options: string[]
 	handleChange?: any
 }
