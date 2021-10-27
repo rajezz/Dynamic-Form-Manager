@@ -104,7 +104,7 @@ export const typeMap: any = {
 	TEXT: {},
 	PARAGRAPH: {
 		multiline: true,
-		rows: 4
+		rows: 3
 	},
 	NUMBER: {
 		type: "number"

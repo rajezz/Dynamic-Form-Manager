@@ -20,14 +20,15 @@ export default function InputText({
 	handleChange
 }: IInputTextProps) {
 	return (
-        <TextField
-            key={name}
-            required={required}
-            className={`form-input text`}
+		<TextField
+			key={name}
+			required={required}
+			className={`form-input text`}
 			label={label}
-            {...typeMap[type]}
-            value={value}
-            onChange={handleChange}
+			{...typeMap[type]}
+			value={value}
+			onChange={handleChange}
+			size="small"
 		/>
 	)
 }

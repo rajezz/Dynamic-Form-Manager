@@ -10,13 +10,13 @@ import { typeMap } from "_data/form-data"
 
 const valuesFormatter = (options: Array<string> | string): Array<any> => {
 	if (Array.isArray(options)) {
-		return options.map((option) => ({ value: option.toLowerCase(), label: option }))
+		return options.map((option) => ({ value: option, label: option }))
 	}
 	return []
 }
 
 const optionFormatter = (options: Array<string> | undefined): Array<any> | undefined =>
-	options?.map((option) => ({ value: option.toLowerCase(), label: option }))
+	options?.map((option) => ({ value: option, label: option }))
 
 export default function InputSelect({
 	name,

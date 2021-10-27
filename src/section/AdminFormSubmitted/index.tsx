@@ -7,5 +7,5 @@ import Layout from "layout/Layout"
 import Button from "@mui/material/Button"
 
 export default function AdminFormSubmitted() {
-	return <div className="content-section form-submitted"></div>
+	return <div className="content-section form-submitted">AdminFormSubmitted called</div>
 }

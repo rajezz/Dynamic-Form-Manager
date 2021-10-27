@@ -55,8 +55,12 @@ export default function Content({}: any) {
 	return (
 		<div className="content-section">
 			<div className="action-panel">
-				<Button onClick={openCreateForm}>Create New Form</Button>
-				<Button onClick={openResultForm}>{contextBtnText}</Button>
+				<Button variant="outlined" onClick={openCreateForm}>
+					Create New Form
+				</Button>
+				<Button variant="outlined" onClick={openResultForm}>
+					{contextBtnText}
+				</Button>
 			</div>
 			{createPageContent()}
 		</div>

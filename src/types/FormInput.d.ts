@@ -10,6 +10,18 @@ export interface IInputTextProps {
 	handleChange?: any
 }
 
+export interface IInputDateProps {
+	name: string
+	value: string
+	label: string
+	type: string
+	required?: boolean
+	public?: boolean
+	printable?: boolean
+	sortOrder?: number
+	handleChange?: any
+}
+
 export interface IInputSelectProps {
 	name: string
 	value: string | string[]

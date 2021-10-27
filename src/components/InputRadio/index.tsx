@@ -23,7 +23,7 @@ export default function InputRadio({
 
 	return (
 		<FormControl className={`form-input radio`} component="fieldset" key={name}>
-			<FormLabel {...requiredAttr}>{label}</FormLabel>
+			<FormLabel className={`form-input radio${required ? " required" : ""}`} component="legend">{label}</FormLabel>
 			<RadioGroup value={value} onChange={handleChange} aria-label={label}>
 				{options.map((option) => (
 					<FormControlLabel

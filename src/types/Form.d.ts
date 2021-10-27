@@ -2,10 +2,18 @@ import { IInputTextProps, IInputCheckboxProps, IInputRadioProps, IInputSelectPro
 
 export interface IForm {
 	name: string
-    fields: Array<IInputTextProps | IInputCheckboxProps | IInputRadioProps | IInputSelectProps>
-    status: boolean
-    validity: string
-    accessibleUser: Array<string>
-    createdAt: string
-    updatedAt: string
+	fields: Array<IInputTextProps | IInputCheckboxProps | IInputRadioProps | IInputSelectProps>
+	status: "active" | "inactive"
+	validity: string
+	accessibleUser: string
+	createdAt: string
+	updatedAt: string
+}
+
+export interface IFormTableColumn {
+	id: string
+	label: string
+	minWidth?: number
+	align?: "right"
+	format?: (value: number) => string
 }
