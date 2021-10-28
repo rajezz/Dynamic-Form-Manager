@@ -1,6 +1,6 @@
-export interface IInputTextProps {
+interface IInput {
+	id: number
 	name: string
-	value: string
 	label: string
 	type: string
 	required?: boolean
@@ -10,29 +10,13 @@ export interface IInputTextProps {
 	handleChange?: any
 }
 
-export interface IInputDateProps {
-	name: string
+export interface IInputTextProps extends IInput {
 	value: string
-	label: string
-	type: string
-	required?: boolean
-	public?: boolean
-	printable?: boolean
-	sortOrder?: number
-	handleChange?: any
 }
 
-export interface IInputSelectProps {
-	name: string
+export interface IInputSelectProps extends IInput {
 	value: string | string[]
-	label: string
-	type: string
-	required?: boolean
-	public?: boolean
-	printable?: boolean
-	sortOrder?: number
 	options: Array<string>
-	handleChange?: any
 }
 
 interface IOption {
@@ -40,27 +24,13 @@ interface IOption {
 	label: string
 }
 
-export interface IInputCheckboxProps {
-	name: string
+export interface IInputCheckboxProps extends IInput {
 	value: boolean
-	label: string
 	type: "CHECKBOX"
-	required?: boolean
-	public?: boolean
-	printable?: boolean
-	sortOrder?: number
-	handleChange?: any
 }
 
-export interface IInputRadioProps {
-	name: string
+export interface IInputRadioProps extends IInput {
 	value: string
-	label: string
 	type: "RADIO"
-	required?: boolean
-	public?: boolean
-	printable?: boolean
-	sortOrder?: number
 	options: string[]
-	handleChange?: any
 }

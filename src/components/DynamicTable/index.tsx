@@ -29,7 +29,7 @@ export default function DataTable({ rows, columns, eventListeners }: any) {
 						{columns.map((column: any) => (
 							<TableCell
 								key={column.id}
-								align={column.align}
+								align="center"
 								style={{ minWidth: column.minWidth }}>
 								{column.label}
 							</TableCell>
@@ -37,6 +37,13 @@ export default function DataTable({ rows, columns, eventListeners }: any) {
 					</TableRow>
 				</TableHead>
 				<TableBody>
+					{rows.length === 0 ? (
+						<tr className="no-row">
+							<td colSpan={columns.length}>No data to show!</td>
+						</tr>
+					) : (
+						""
+					)}
 					{rows.map((row: any) => {
 						return (
 							<TableRow role="checkbox" tabIndex={-1} key={row.code}>

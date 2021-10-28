@@ -183,10 +183,7 @@ button {
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
-}
-
-.action-panel > button {
-	margin: 0.5rem 1rem;
+	margin: 2rem auto;
 }
 
 .row {
@@ -225,25 +222,25 @@ button {
 	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 }
 
-thead {
+.table thead {
 	background-color: #f9fafb;
 }
-thead > :not([hidden]) ~ :not([hidden]),
-tbody > :not([hidden]) ~ :not([hidden]) {
+.table thead > :not([hidden]) ~ :not([hidden]),
+.table tbody > :not([hidden]) ~ :not([hidden]) {
 	border-bottom: 1px solid #e5e7eb;
 }
 
-thead th:last-child {
+.table thead th:last-child {
 	text-align: center;
 }
 
-tr.no-contracts {
+.table tr.no-row {
 	text-align: center;
 	letter-spacing: 0.05rem;
 	color: #a1a3a5;
 	font-size: 1rem;
 }
-th {
+.table th {
 	padding: 0.75rem;
 	font-size: 0.875rem;
 	line-height: 1.125rem;
@@ -254,11 +251,11 @@ th {
 	color: #6b7280;
 }
 
-td {
+.table td {
 	padding: 0.75rem;
 }
 
-td {
+.table td {
 	display: table-cell;
 	vertical-align: middle;
 	text-align: center;

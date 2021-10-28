@@ -10,13 +10,23 @@ import AdminFormSubmitted from "section/AdminFormSubmitted"
 
 // Library components...
 import Button from "@mui/material/Button"
+import ButtonGroup from "@mui/material/ButtonGroup"
 
 // Types...
 import { IForm } from "types/Form"
 
+// Data...
+import {
+	CONTAINED,
+	OUTLINED,
+	FORM_LIST,
+	FORM_CREATE,
+	FORM_SUBMITTED,
+	nameLabelMap
+} from "_data/form-data"
+
 export default function Content({}: any) {
-	const [page, setPage] = useState("form-list")
-	const [contextBtnText, setContextBtnText] = useState("Submitted form")
+	const [page, setPage] = useState(FORM_LIST)
 	const [forms, setForms] = useState<Array<IForm>>([])
 
 	function getLocalData(key: string, defaulValue: string): string {
@@ -29,38 +39,28 @@ export default function Content({}: any) {
 		setForms((prevValue) => [prevValue, ...JSON.parse(formStr)])
 	}, [])
 
-	function openCreateForm() {
-		if (page === "form-list") setPage("form-create")
-	}
-	function openResultForm() {
-		if (page === "form-list") {
-			setPage("form-submitted")
-			setContextBtnText("Form list")
-		} else if (page === "form-submitted") {
-			setPage("form-list")
-			setContextBtnText("Submitted form")
-		}
-	}
-
 	function createPageContent() {
 		switch (page) {
-			case "form-list":
+			case FORM_LIST:
 				return <AdminFormList />
-			case "form-create":
+			case FORM_CREATE:
 				return <AdminFormCreate />
-			case "form-submitted":
+			case FORM_SUBMITTED:
 				return <AdminFormSubmitted />
 		}
 	}
 	return (
 		<div className="content-section">
 			<div className="action-panel">
-				<Button variant="outlined" onClick={openCreateForm}>
-					Create New Form
-				</Button>
-				<Button variant="outlined" onClick={openResultForm}>
-					{contextBtnText}
-				</Button>
+				<ButtonGroup aria-label="medium button group">
+					{[FORM_LIST, FORM_CREATE, FORM_SUBMITTED].map((pageName) => (
+						<Button
+							variant={page === pageName ? CONTAINED : OUTLINED}
+							onClick={() => setPage(pageName)}>
+							{`${nameLabelMap[pageName]}`}
+						</Button>
+					))}
+				</ButtonGroup>
 			</div>
 			{createPageContent()}
 		</div>

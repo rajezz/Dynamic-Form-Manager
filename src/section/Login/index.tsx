@@ -49,6 +49,7 @@ export default function LoginSection() {
 		return (
 			<Fragment>
 				<InputText
+					id={1}
 					handleChange={(e: any) => handleChange("username", e.currentTarget.value)}
 					value={values["username"]}
 					label="Username"
@@ -57,6 +58,7 @@ export default function LoginSection() {
 					type="TEXT"
 				/>
 				<InputText
+					id={2}
 					handleChange={(e: any) => handleChange("password", e.currentTarget.value)}
 					value={values["password"]}
 					label="Password"
@@ -71,6 +73,7 @@ export default function LoginSection() {
 		return (
 			<Fragment>
 				<InputText
+					id={1}
 					handleChange={(e: any) => handleChange("email", e.currentTarget.value)}
 					value={values["email"]}
 					label="Email"

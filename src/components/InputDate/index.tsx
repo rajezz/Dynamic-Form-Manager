@@ -7,11 +7,11 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider"
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker"
 
 // Types...
-import { IInputDateProps } from "types/FormInput"
+import { IInputTextProps } from "types/FormInput"
 
 // Data...
 
-export default function InputDate({ name, value, label, required, handleChange }: IInputDateProps) {
+export default function InputDate({ name, value, label, required, handleChange }: IInputTextProps) {
 	return (
 		<LocalizationProvider key={name} dateAdapter={AdapterDateFns}>
 			<DesktopDatePicker

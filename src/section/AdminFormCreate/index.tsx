@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import { useRouter } from "next/router"
 
 // Layouts...
 import Layout from "layout/Layout"
@@ -13,29 +14,27 @@ import InputText from "components/InputText"
 import InputSelect from "components/InputSelect"
 import InputDate from "components/InputDate"
 import FieldListTable from "components/FieldListTable"
+import SnackBar from "components/SnackBar"
 
-function getEmptyField() {
-	return {
-		name: "",
-		value: "",
-		label: "",
-		type: "",
-		required: false,
-		public: false,
-		printable: false
-	}
-}
+// libraries...
+import { getEmptyField, generateUUID, validateForm } from "lib/form-handler"
+
+// Data...
+import { CONTAINED, OUTLINED } from "_data/form-data"
 
 export default function AdminFormCreate() {
+	const router = useRouter()
 	const [values, setValues] = useState<IForm>({
+		id: generateUUID(),
 		name: "",
-		validity: "",
-		status: "active",
+		validity: new Date().toString(),
+		status: "",
 		accessibleUser: "",
 		fields: [],
-		createdAt: "",
-		updatedAt: ""
+		createdAt: ""
 	})
+	const [message, setMessage] = useState<string>("")
+	const [messageType, setMessageType] = useState<string>("")
 
 	const handleChange = (name: string, value: any) => {
 		setValues((prevValues: any) => ({ ...prevValues, [name]: value }))
@@ -73,10 +72,37 @@ export default function AdminFormCreate() {
 		}))
 	}
 
+	function storeInLocalstorage(form: IForm) {
+		const storedForms = localStorage.getItem("forms")
+		let contentToBeStored = ``
+		if (storedForms) {
+			const parsedContent = JSON.parse(storedForms)
+			contentToBeStored = JSON.stringify(parsedContent.concat(form))
+		} else {
+			contentToBeStored = JSON.stringify([form])
+		}
+		localStorage.setItem("forms", contentToBeStored)
+	}
+
+	function saveForm() {
+		const [valid, errors, form] = validateForm({ ...values })
+		if (!valid) {
+			console.error(errors)
+			setMessageType("error")
+			setMessage(errors.join(", "))
+		} else {
+			storeInLocalstorage(form)
+			setMessageType("success")
+			setMessage("Form created Successfully.")
+			router.reload()
+		}
+	}
+
 	return (
 		<div className="content-section form-create">
 			<div className="row">
 				<InputText
+					id={1}
 					handleChange={(e: any) => handleChange("name", e.currentTarget.value)}
 					value={values["name"]}
 					label="Form name"
@@ -85,6 +111,7 @@ export default function AdminFormCreate() {
 					type="TEXT"
 				/>
 				<InputDate
+					id={2}
 					handleChange={(e: any) => {
 						console.log(e)
 						handleChange("validity", e)
@@ -96,6 +123,7 @@ export default function AdminFormCreate() {
 					type="DATE"
 				/>
 				<InputSelect
+					id={3}
 					handleChange={(e: any) => handleChange("status", e.value)}
 					value={values["status"]}
 					label="Form status"
@@ -107,6 +135,7 @@ export default function AdminFormCreate() {
 			</div>
 			<div className="row flex-start">
 				<InputText
+					id={4}
 					handleChange={(e: any) => handleChange("accessibleUser", e.currentTarget.value)}
 					value={values["accessibleUser"]}
 					label="Accessible User"
@@ -117,7 +146,7 @@ export default function AdminFormCreate() {
 			</div>
 			<div className="field-list-panel">
 				<div className="btn-panel">
-					<Button variant="outlined" onClick={addField}>
+					<Button variant={OUTLINED} onClick={addField}>
 						Add Field
 					</Button>
 				</div>
@@ -126,6 +155,16 @@ export default function AdminFormCreate() {
 					handleChange={handleFieldChange}
 					onDelete={handleOnDeletField}
 				/>
+				<div className="btn-panel">
+					<Button variant={CONTAINED} onClick={saveForm}>
+						Save Form
+					</Button>
+				</div>
+				<SnackBar
+					message={message}
+					type={messageType}
+				/>
+				
 			</div>
 		</div>
 	)

@@ -2,12 +2,12 @@ import { IInputTextProps, IInputCheckboxProps, IInputRadioProps, IInputSelectPro
 
 export interface IForm {
 	name: string
+	id: number
 	fields: Array<IInputTextProps | IInputCheckboxProps | IInputRadioProps | IInputSelectProps>
-	status: "active" | "inactive"
+	status: string
 	validity: string
 	accessibleUser: string
 	createdAt: string
-	updatedAt: string
 }
 
 export interface IFormTableColumn {

@@ -4,9 +4,9 @@ import React from "react"
 import Layout from "layout/Layout"
 
 // Data...
-import { typeMap } from "_data/form-data"
+import { typeMap, fieldTableColumns } from "_data/form-data"
 
-import { IForm, IFormTableColumn } from "types/Form"
+import { IForm } from "types/Form"
 
 //Components...
 import InputText from "components/InputText"
@@ -15,16 +15,6 @@ import InputCheckbox from "components/InputCheckbox"
 
 // Library components...
 import Select from "react-select"
-
-const columns: Array<IFormTableColumn> = [
-	{ id: "name", label: "Name", minWidth: 170 },
-	{ id: "type", label: "Type", minWidth: 170 },
-	{ id: "options", label: "Options", minWidth: 170 },
-	{ id: "required", label: "Required", minWidth: 100 },
-	{ id: "public", label: "Public", minWidth: 100 },
-	{ id: "printable", label: "Printable", minWidth: 100 },
-	{ id: "action", label: "Action", minWidth: 100 }
-]
 
 const valuesFormatter = (value: string): any => ({ value, label: value })
 
@@ -46,10 +36,10 @@ export default function FieldListTable({
 				<table className="table">
 					<thead>
 						<tr>
-							{columns.map((column: any) => (
+							{fieldTableColumns.map((column: any) => (
 								<th
 									key={column.id}
-									align={column.align ?? "center"}
+									align="center"
 									style={{ minWidth: column.minWidth }}>
 									{column.label}
 								</th>
@@ -58,8 +48,8 @@ export default function FieldListTable({
 					</thead>
 					<tbody>
 						{form.fields.length === 0 ? (
-							<tr className="no-contracts">
-								<td colSpan={columns.length}>
+							<tr className="no-row">
+								<td colSpan={fieldTableColumns.length}>
 									No forms fields to show. Create one!
 								</td>
 							</tr>
@@ -71,12 +61,13 @@ export default function FieldListTable({
 								<tr key={field.code}>
 									<td>
 										<InputText
+											id={field["id"]}
 											handleChange={(e: any) =>
-												handleChange(index, "name", e.currentTarget.value)
+												handleChange(index, "label", e.currentTarget.value)
 											}
-											value={field["name"]}
+											value={field["label"]}
 											label="Field name"
-											name="name"
+											name="label"
 											required={true}
 											type="TEXT"
 										/>
@@ -96,6 +87,7 @@ export default function FieldListTable({
 									<td>
 										{["DROPDOWN", "MULTI_DROPDOWN"].includes(field["type"]) ? (
 											<InputText
+												id={field["id"]}
 												handleChange={(e: any) =>
 													handleChange(
 														index,
@@ -115,6 +107,7 @@ export default function FieldListTable({
 									</td>
 									<td>
 										<InputCheckbox
+											id={field["id"]}
 											handleChange={(e: any) =>
 												handleChange(
 													index,
@@ -130,6 +123,7 @@ export default function FieldListTable({
 									</td>
 									<td>
 										<InputCheckbox
+											id={field["id"]}
 											handleChange={(e: any) =>
 												handleChange(
 													index,
@@ -145,6 +139,7 @@ export default function FieldListTable({
 									</td>
 									<td>
 										<InputCheckbox
+											id={field["id"]}
 											handleChange={(e: any) =>
 												handleChange(
 													index,
