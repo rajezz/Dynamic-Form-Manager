@@ -6,12 +6,6 @@ import Head from "next/head"
 import Button from "@mui/material/Button"
 
 // Data...
-import {
-	formInputsCheckbox,
-	formInputsRadio,
-	formInputText,
-	formInputSelect
-} from "_data/form-data"
 
 // Components...
 import InputCheckbox from "components/InputCheckbox"
@@ -52,7 +46,7 @@ const Home: NextPage = () => {
 				</Head>
 				<div className="title">Dynamic form POC</div>
 				<div className="form">
-					{formInputsCheckbox.map((input) => (
+					{/* {formInputsCheckbox.map((input) => (
 						<InputCheckbox
 							handleChange={(e: any) =>
 								handleChange(input.name, e.currentTarget.checked)
@@ -91,7 +85,7 @@ const Home: NextPage = () => {
 							{...input}
 							value={values[input.name]}
 						/>
-					))}
+					))} */}
 				</div>
 
 				<div className="output">
