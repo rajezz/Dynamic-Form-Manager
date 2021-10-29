@@ -1,4 +1,9 @@
-import { IInputTextProps, IInputCheckboxProps, IInputRadioProps, IInputSelectProps } from "types/FormInput"
+import {
+	IInputTextProps,
+	IInputCheckboxProps,
+	IInputRadioProps,
+	IInputSelectProps
+} from "types/FormInput"
 
 export interface IForm {
 	name: string
@@ -7,6 +12,14 @@ export interface IForm {
 	status: string
 	validity: string
 	accessibleUser: string
+	createdAt: string
+}
+export interface ISubmittedForm {
+	id: number
+	formName: formName
+	formId: formId
+	submittedUser: string
+	fields: Array<IInputTextProps | IInputCheckboxProps | IInputRadioProps | IInputSelectProps>
 	createdAt: string
 }
 

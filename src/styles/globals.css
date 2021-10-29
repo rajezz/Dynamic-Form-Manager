@@ -261,14 +261,14 @@ button {
 	text-align: center;
 }
 
-button.delete {
+button.icon-btn {
 	background-color: transparent;
 	border: none;
 	color: #647c8f;
 	padding: 0px;
 	transition: color 0.2s ease-in-out;
 }
-button.delete:hover {
+button.icon-btn:hover {
 	color: black;
 }
 /* Footer styles */

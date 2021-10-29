@@ -13,16 +13,11 @@ import { IForm } from "types/Form"
 function formatForm(forms: any[]) {
 	return forms.map((form) => ({
 		name: form.name,
-		id: form.id,
-		fields: form.fields.map((field: any) => field.label).join("\n"),
-		status: form.status,
-		validity: new Date(form.validity).toLocaleDateString(),
-		accessibleUser: form.accessibleUser.replaceAll(",", "\n"),
 		createdAt: new Date(form.createdAt).toLocaleDateString()
 	}))
 }
 
-export default function AdminFormList() {
+export default function UserFormList() {
 	const router = useRouter()
 	const [forms, setForms] = useState<IForm[]>([])
 	useEffect(() => {

@@ -5,14 +5,13 @@ import { useRouter } from "next/router"
 import Layout from "layout/Layout"
 import Profile from "section/Profile"
 import Title from "section/Title"
-import Content from "section/Content"
+import AdminContent from "section/AdminContent"
 
 // Library components...
 import Button from "@mui/material/Button"
 
 export default function Admin() {
 	const router = useRouter()
-	const [userType, setUserType] = useState<string | null>("")
 	const [username, setUsername] = useState<string | null>("")
 
 	const logoutUser = () => {
@@ -22,16 +21,23 @@ export default function Admin() {
 		router.push("/")
 	}
 	useEffect(() => {
-		setUserType(localStorage.getItem("userType"))
-		setUsername(localStorage.getItem("username"))
-		
+		const storedUserType = localStorage.getItem("userType")
+		const storedUsername = localStorage.getItem("username")
+
+		if (storedUserType === "admin") {
+			setUsername(storedUsername)
+		} else if (storedUserType === "user") {
+			router.push("/user")
+		} else {
+			router.push("/")
+		}
 	}, [])
 	return (
 		<Layout>
 			<div className="box-container">
 				<Profile name={username} onLogout={logoutUser} />
 				<Title />
-				<Content />
+				<AdminContent />
 			</div>
 		</Layout>
 	)

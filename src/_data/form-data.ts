@@ -119,8 +119,13 @@ export const formTableColumns: Array<IFormTableColumn> = [
 	{ id: "fields", label: "Fields", minWidth: 100 },
 	{ id: "accessibleUser", label: "Accessible User", minWidth: 100 },
 	{ id: "status", label: "Status", minWidth: 170 },
-	{ id: "validity", label: "Validity", minWidth: 170 },
-	{ id: "action", label: "Action", minWidth: 100 }
+	{ id: "validity", label: "Validity", minWidth: 170 }
+]
+export const submittedFormTableColumns: Array<IFormTableColumn> = [
+	{ id: "submittedUser", label: "Submitted User", minWidth: 170 },
+	{ id: "formName", label: "Form Name", minWidth: 100 },
+	{ id: "formId", label: "Form Id", minWidth: 100 },
+	{ id: "createdAt", label: "Created At", minWidth: 100 }
 ]
 
 export const typeMap: any = {
@@ -163,4 +168,3 @@ export const nameLabelMap: any = {
 	[FORM_CREATE]: "Create New Form",
 	[FORM_SUBMITTED]: "Submitted Form"
 }
-
