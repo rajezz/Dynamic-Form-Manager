@@ -24,32 +24,10 @@ import {
 	nameLabelMap
 } from "_data/form-data"
 
-export default function UserContent({}: any) {
-	const [page, setPage] = useState(FORM_LIST)
-
-	function createPageContent() {
-		switch (page) {
-			case FORM_LIST:
-				return <UserFormList />
-			case FORM_CREATE:
-				return <UserFormCreate />
-			
-		}
-	}
+export default function UserContent(email: any) {
 	return (
 		<div className="content-section">
-			<div className="action-panel">
-				<ButtonGroup aria-label="medium button group">
-					{[FORM_LIST, FORM_CREATE].map((pageName) => (
-						<Button
-							variant={page === pageName ? CONTAINED : OUTLINED}
-							onClick={() => setPage(pageName)}>
-							{`${nameLabelMap[pageName]}`}
-						</Button>
-					))}
-				</ButtonGroup>
-			</div>
-			{createPageContent()}
+			<UserFormList />
 		</div>
 	)
 }

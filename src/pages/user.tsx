@@ -36,7 +36,7 @@ export default function User() {
 			<div className="box-container">
 				<Profile name={email} onLogout={logoutUser} />
 				<Title />
-				<UserContent />
+				<UserContent email={email} />
 			</div>
 		</Layout>
 	)

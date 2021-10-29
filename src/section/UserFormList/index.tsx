@@ -3,7 +3,8 @@ import { useRouter } from "next/router"
 
 // Layouts...
 import Layout from "layout/Layout"
-import FormListTable from "components/FormListTable"
+import UserFormListTable from "components/UserFormListTable"
+import UserFormCreate from "section/UserFormCreate"
 
 // Library components...
 import Button from "@mui/material/Button"
@@ -20,6 +21,9 @@ function formatForm(forms: any[]) {
 export default function UserFormList() {
 	const router = useRouter()
 	const [forms, setForms] = useState<IForm[]>([])
+	const [selectedForm, setSelectedForm] = useState<IForm | null>(null)
+	const [modalState, setModalState] = useState<boolean>(false)
+
 	useEffect(() => {
 		const storedForms = localStorage.getItem("forms")
 		console.log("storedForms", storedForms)
@@ -47,13 +51,20 @@ export default function UserFormList() {
 		}
 	}
 
+	function onCreate(index: number) {}
+	function onDownload(index: number) {}
+	function onEmail(index: number) {}
+
 	return (
 		<div className="content-section form-list">
-			<FormListTable
+			<UserFormListTable
 				rows={formatForm(forms)}
 				columns={formTableColumns}
-				onDelete={onDelete}
+				onCreate={onCreate}
+				onDownload={onDownload}
+				onEmail={onEmail}
 			/>
+			<UserFormCreate state={modalState} form={selectedForm} toggleState={setModalState} />
 		</div>
 	)
 }

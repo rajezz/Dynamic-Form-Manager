@@ -8,6 +8,11 @@ import { IForm } from "types/Form"
 
 // Library components...
 import Button from "@mui/material/Button"
+import Dialog from "@mui/material/Dialog"
+import DialogActions from "@mui/material/DialogActions"
+import DialogContent from "@mui/material/DialogContent"
+import DialogContentText from "@mui/material/DialogContentText"
+import DialogTitle from "@mui/material/DialogTitle"
 
 //Components...
 import InputText from "components/InputText"
@@ -22,15 +27,21 @@ import { getEmptyField, generateUUID, validateForm } from "lib/form-handler"
 // Data...
 import { CONTAINED, OUTLINED } from "_data/form-data"
 
-export default function UserFormCreate() {
+export default function UserFormCreate({
+	form,
+	state,
+	toggleState
+}: {
+	form: IForm | null
+	state: boolean
+	toggleState: any
+}) {
 	const router = useRouter()
-	const [values, setValues] = useState<IForm>({
+	const [values, setValues] = useState<any>({
 		id: generateUUID(),
-		name: "",
-		validity: new Date().toString(),
-		status: "",
-		accessibleUser: "",
-		fields: [],
+		fields: form?.fields,
+		formName: form?.name,
+		formId: form?.id,
 		createdAt: ""
 	})
 	const [message, setMessage] = useState<string>("")
@@ -41,8 +52,8 @@ export default function UserFormCreate() {
 		console.log("handleChange called !! ", values)
 	}
 
-	function handleFieldChange(fieldIndex: number, key: string, value: string | boolean) {
-		setValues((prevValues) => ({
+	/* function handleFieldChange(fieldIndex: number, key: string, value: string | boolean) {
+		setValues((prevValues: any) => ({
 			...prevValues,
 			fields: prevValues.fields.map((field, i) => {
 				if (i === fieldIndex) {
@@ -52,21 +63,21 @@ export default function UserFormCreate() {
 				}
 			})
 		}))
-	}
+	} */
 
 	function handleOnDeletField(index: number) {
 		const deleteItemFromArray = (arr: any[], index: number): any[] => {
 			arr.splice(index, 1)
 			return arr
 		}
-		setValues((prevValues) => ({
+		setValues((prevValues: any) => ({
 			...prevValues,
 			fields: deleteItemFromArray(prevValues.fields, index)
 		}))
 	}
 
 	function addField() {
-		setValues((prevValues) => ({
+		setValues((prevValues: any) => ({
 			...prevValues,
 			fields: prevValues.fields.concat(getEmptyField())
 		}))
@@ -98,70 +109,22 @@ export default function UserFormCreate() {
 		}
 	}
 
+	function handleClose() {}
+
 	return (
-		<div className="content-section form-create">
-			<div className="row">
-				<InputText
-					id={1}
-					handleChange={(e: any) => handleChange("name", e.currentTarget.value)}
-					value={values["name"]}
-					label="Form name"
-					name="name"
-					required={true}
-					type="TEXT"
-				/>
-				<InputDate
-					id={2}
-					handleChange={(e: any) => {
-						console.log(e)
-						handleChange("validity", e)
-					}}
-					value={values["validity"]}
-					label="Validity"
-					name="validity"
-					required={true}
-					type="DATE"
-				/>
-				<InputSelect
-					id={3}
-					handleChange={(e: any) => handleChange("status", e.value)}
-					value={values["status"]}
-					label="Form status"
-					name="status"
-					required={true}
-					type="DROPDOWN"
-					options={["Active", "Inactive"]}
-				/>
-			</div>
-			<div className="row flex-start">
-				<InputText
-					id={4}
-					handleChange={(e: any) => handleChange("accessibleUser", e.currentTarget.value)}
-					value={values["accessibleUser"]}
-					label="Accessible User"
-					name="accessibleUser"
-					required={true}
-					type="PARAGRAPH"
-				/>
-			</div>
-			<div className="field-list-panel">
-				<div className="btn-panel">
-					<Button variant={OUTLINED} onClick={addField}>
-						Add Field
-					</Button>
-				</div>
-				<FieldListTable
-					form={values}
-					handleChange={handleFieldChange}
-					onDelete={handleOnDeletField}
-				/>
-				<div className="btn-panel">
-					<Button variant={CONTAINED} onClick={saveForm}>
-						Save Form
-					</Button>
-				</div>
-				<SnackBar message={message} type={messageType} />
-			</div>
-		</div>
+		<Dialog open={state} onClose={(e) => toggleState(false)}>
+			<DialogTitle>Subscribe</DialogTitle>
+			<DialogContent>
+				<DialogContentText>
+					To subscribe to this website, please enter your email address here. We will send
+					updates occasionally.
+				</DialogContentText>
+				
+			</DialogContent>
+			<DialogActions>
+				<Button onClick={(e) => toggleState(false)}>Cancel</Button>
+				<Button onClick={toggleState}>Subscribe</Button>
+			</DialogActions>
+		</Dialog>
 	)
 }

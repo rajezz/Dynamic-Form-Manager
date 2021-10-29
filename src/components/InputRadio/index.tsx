@@ -8,7 +8,7 @@ import RadioGroup from "@mui/material/RadioGroup"
 import Radio from "@mui/material/Radio"
 
 // Types...
-import { IInputRadioProps } from "types/FormInput"
+import { IField } from "types/FormInput"
 
 export default function InputRadio({
 	name,
@@ -17,7 +17,7 @@ export default function InputRadio({
 	required,
 	options,
 	handleChange
-}: IInputRadioProps) {
+}: IField) {
 	
 	const requiredAttr = required ? { component: "legend" } : {}
 
@@ -25,7 +25,7 @@ export default function InputRadio({
 		<FormControl className={`form-input radio`} component="fieldset" key={name}>
 			<FormLabel className={`form-input radio${required ? " required" : ""}`} component="legend">{label}</FormLabel>
 			<RadioGroup value={value} onChange={handleChange} aria-label={label}>
-				{options.map((option) => (
+				{options?.map((option) => (
 					<FormControlLabel
 						value={option.toLowerCase()}
 						control={<Radio />}

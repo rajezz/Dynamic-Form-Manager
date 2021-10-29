@@ -1,107 +1,9 @@
-import {
-	IInputCheckboxProps,
-	IInputTextProps,
-	IInputSelectProps,
-	IInputRadioProps
-} from "types/FormInput"
-
 import { IFormTableColumn } from "types/Form"
-
-/* export const formInputsCheckbox: Array<IInputCheckboxProps> = [
-	{
-		value: false,
-		name: "qualified",
-		label: "Qualified",
-		type: "CHECKBOX",
-		required: false,
-		public: false,
-		printable: true,
-		sortOrder: 4
-	}
-]
-
-export const formInputsRadio: Array<IInputRadioProps> = [
-	{
-		value: "",
-		label: "Gender",
-		name: "gender",
-		type: "RADIO",
-		required: true,
-		public: true,
-		printable: true,
-		sortOrder: 3,
-		options: ["Male", "Female", "Other"]
-	}
-]
-
-export const formInputText: Array<IInputTextProps> = [
-	{
-		value: "",
-		name: "name",
-		label: "Name",
-		type: "TEXT",
-		required: true,
-		public: true,
-		printable: true,
-		sortOrder: 1
-	},
-	{
-		value: "",
-		name: "email",
-		label: "Email",
-		type: "EMAIL",
-		required: true,
-		public: true,
-		printable: true,
-		sortOrder: 2
-	},
-	{
-		value: "",
-		name: "phone",
-		label: "Phone",
-		type: "PHONE",
-		required: true,
-		public: true,
-		printable: true,
-		sortOrder: 3
-	},
-	{
-		value: "",
-		name: "description",
-		label: "Description",
-		type: "PARAGRAPH",
-		required: false,
-		public: true,
-		printable: true,
-		sortOrder: 4
-	}
-]
-
-export const formInputSelect: Array<IInputSelectProps> = [
-	{
-		value: "",
-		name: "experience",
-		label: "Experience",
-		type: "DROPDOWN",
-		required: true,
-		public: true,
-		printable: true,
-		sortOrder: 6,
-		options: ["1", "2", "3", "4", "5"]
-	},
-	{
-		value: [],
-		name: "preferred-location",
-		label: "Preferred Location",
-		type: "MULTI_DROPDOWN",
-		required: true,
-		public: true,
-		printable: true,
-		sortOrder: 6,
-		options: ["Chennai", "Bengaluru", "Hyderabad", "Delhi", "Mumbai"]
-	}
-]
- */
+import InputText from "components/InputText"
+import InputSelect from "components/InputSelect"
+import InputDate from "components/InputDate"
+import InputRadio from "components/InputRadio"
+import InputCheckbox from "components/InputCheckbox"
 
 export const fieldTableColumns: Array<IFormTableColumn> = [
 	{ id: "label", label: "Label", minWidth: 170 },
@@ -128,6 +30,32 @@ export const submittedFormTableColumns: Array<IFormTableColumn> = [
 	{ id: "createdAt", label: "Created At", minWidth: 100 }
 ]
 
+export const TYPE_TEXT: string = "TEXT"
+export const TYPE_PARAGRAPH: string = "PARAGRAPH"
+export const TYPE_NUMBER: string = "NUMBER"
+export const TYPE_EMAIL: string = "EMAIL"
+export const TYPE_PHONE: string = "PHONE"
+export const TYPE_PIN_CODE: string = "PIN_CODE"
+export const TYPE_CHECKBOX: string = "CHECKBOX"
+export const TYPE_RADIO: string = "RADIO"
+export const TYPE_DROPDOWN: string = "DROPDOWN"
+export const TYPE_MULTI_DROPDOWN: string = "MULTI_DROPDOWN"
+export const TYPE_DATE: string = "DATE"
+
+//{ [index: string]: JSX.Element }
+export const TYPE_ELEMENT_MAP: any = {
+	[TYPE_TEXT]: InputText,
+	[TYPE_PARAGRAPH]: InputText,
+	[TYPE_NUMBER]: InputText,
+	[TYPE_EMAIL]: InputText,
+	[TYPE_PHONE]: InputText,
+	[TYPE_PIN_CODE]: InputText,
+	[TYPE_CHECKBOX]: InputCheckbox,
+	[TYPE_RADIO]: InputRadio,
+	[TYPE_DROPDOWN]: InputSelect,
+	[TYPE_MULTI_DROPDOWN]: InputSelect,
+	[TYPE_DATE]: InputDate
+}
 export const typeMap: any = {
 	TEXT: {},
 	PARAGRAPH: {

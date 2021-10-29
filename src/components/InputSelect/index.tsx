@@ -3,7 +3,7 @@ import React from "react"
 import Select, { OptionsOrGroups } from "react-select"
 
 // Types...
-import { IInputSelectProps } from "types/FormInput"
+import { IField } from "types/FormInput"
 
 // Data...
 import { typeMap } from "_data/form-data"
@@ -26,7 +26,7 @@ export default function InputSelect({
 	required,
 	options,
 	handleChange
-}: IInputSelectProps) {
+}: IField) {
 	return (
 		<div className={`form-input select${required ? " required" : ""}`} key={name}>
 			<label htmlFor={name}>{label}</label>

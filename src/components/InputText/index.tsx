@@ -6,7 +6,7 @@ import Checkbox from "@mui/material/Checkbox"
 import TextField from "@mui/material/TextField"
 
 // Types...
-import { IInputTextProps } from "types/FormInput"
+import { IField } from "types/FormInput"
 
 // Data...
 import { typeMap } from "_data/form-data"
@@ -18,7 +18,7 @@ export default function InputText({
 	type,
 	required,
 	handleChange
-}: IInputTextProps) {
+}: IField) {
 	return (
 		<TextField
 			key={name}

@@ -29,14 +29,17 @@ export default function LoginSection() {
 			case "admin":
 				const { username, password } = values
 				if (username === "admin" && password === "password") {
+					localStorage.removeItem("email")
 					localStorage.setItem("username", username)
 					localStorage.setItem("password", password)
 					valid = true
 				}
 				break
-			case "user":
-				const { email } = values
-				if (email) {
+				case "user":
+					const { email } = values
+					if (email) {
+					localStorage.removeItem("username")
+					localStorage.removeItem("password")
 					localStorage.setItem("email", email)
 					valid = true
 				}

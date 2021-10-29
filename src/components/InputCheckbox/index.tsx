@@ -5,9 +5,9 @@ import FormControlLabel from "@mui/material/FormControlLabel"
 import Checkbox from "@mui/material/Checkbox"
 
 // Types...
-import { IInputCheckboxProps } from "types/FormInput"
+import { IField } from "types/FormInput"
 
-export default function InputCheckbox({ name, value, label, required, handleChange }: IInputCheckboxProps) {
+export default function InputCheckbox({ name, value, label, required, handleChange }: IField) {
 	return (
 		<FormControlLabel
 			control={
