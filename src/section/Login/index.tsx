@@ -67,7 +67,7 @@ export default function LoginSection() {
 					label="Password"
 					name="password"
 					required={true}
-					type="TEXT"
+					type="PASSWORD"
 				/>
 			</Fragment>
 		)

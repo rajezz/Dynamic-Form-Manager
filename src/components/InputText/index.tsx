@@ -9,7 +9,7 @@ import TextField from "@mui/material/TextField"
 import { IField } from "types/FormInput"
 
 // Data...
-import { typeMap } from "_data/form-data"
+import { INPUT_TYPE_MAP, TYPE_PARAGRAPH } from "_data/form-data"
 
 export default function InputText({
 	name,
@@ -24,14 +24,23 @@ export default function InputText({
 			<label className="label" htmlFor={name}>
 				{label}
 			</label>
-			<input
-				className="native-input"
-				id={name}
-				name={name}
-				type="text"
-				value={value}
-				onChange={handleChange}
-			/>
+			{type === TYPE_PARAGRAPH ? (
+				<textarea
+					className="native-input"
+					id={name}
+					name={name}
+					onChange={handleChange}
+				>{value}</textarea>
+			) : (
+				<input
+					className="native-input"
+					id={name}
+					name={name}
+					type={INPUT_TYPE_MAP[type]}
+					value={value}
+					onChange={handleChange}
+				/>
+			)}
 		</div>
 	)
 }

@@ -117,9 +117,9 @@ export function validateForm(form: IForm): [boolean, string[], IForm] {
 
 	if (form.fields && form.fields.length > 0) {
 		form.fields.forEach((field) => {
+			field.name = convertToKebabCase(field.label)
 			const [valid, tempErrors] = validateField(field)
 			!valid && errors.push(...tempErrors)
-			field.name = convertToKebabCase(field.label)
 		})
 	} else {
 		errors.push("Atleast one field need to be created for a Form.")

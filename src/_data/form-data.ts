@@ -50,6 +50,7 @@ export const TYPE_RADIO: string = "RADIO"
 export const TYPE_DROPDOWN: string = "DROPDOWN"
 export const TYPE_MULTI_DROPDOWN: string = "MULTI_DROPDOWN"
 export const TYPE_DATE: string = "DATE"
+export const TYPE_PASSWORD: string = "PASSWORD"
 
 //{ [index: string]: JSX.Element }
 export const TYPE_ELEMENT_MAP: any = {
@@ -64,6 +65,14 @@ export const TYPE_ELEMENT_MAP: any = {
 	[TYPE_DROPDOWN]: InputSelect,
 	[TYPE_MULTI_DROPDOWN]: InputSelect,
 	[TYPE_DATE]: InputDate
+}
+export const INPUT_TYPE_MAP: any = {
+	[TYPE_TEXT]: "text",
+	[TYPE_NUMBER]: "number",
+	[TYPE_EMAIL]: "email",
+	[TYPE_PHONE]: "tel",
+	[TYPE_PIN_CODE]: "number",
+	[TYPE_PASSWORD]: "password",
 }
 //{ [index: string]: JSX.Element }
 export const TYPE_REGEX_MAP: any = {
