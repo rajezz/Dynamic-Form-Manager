@@ -14,11 +14,19 @@ import TableSortLabel from "@mui/material/TableSortLabel"
 import { DeleteIcon, EmailIcon, PDFIcon } from "components/Icon"
 import { ISubmittedForm } from "types/Form"
 
-function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
-	if (b[orderBy] < a[orderBy]) {
+function descendingComparator(a: any, b: any, orderBy: any) {
+	let valA: any, valB: any
+	if (["createdAt", "updatedAt"].includes(orderBy)) {
+		valA = a[orderBy] ? new Date(a[orderBy]).getTime() : a[orderBy]
+		valB = b[orderBy] ? new Date(b[orderBy]).getTime() : b[orderBy]
+	} else {
+		valA = a[orderBy]
+		valB = b[orderBy]
+	}
+	if (valB < valA) {
 		return -1
 	}
-	if (b[orderBy] > a[orderBy]) {
+	if (valB > valA) {
 		return 1
 	}
 	return 0
@@ -42,7 +50,7 @@ function stableSort<T>(array: readonly T[], orderBy: any, comparator: (a: T, b: 
 	stabilizedThis.sort((a, b) => {
 		const order = comparator(a[0], b[0])
 		if (order !== 0) {
-			return ["createdAt", "updatedAt"].includes(orderBy) ? -order : order
+			return order
 		}
 		return a[1] - b[1]
 	})
