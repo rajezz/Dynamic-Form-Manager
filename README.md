@@ -1,34 +1,63 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Dynammic Form Manager
 
-## Getting Started
+A Next.js application built on React with TypeScript to build and manage Forms.
 
-First, run the development server:
+### Application functionality:-
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+-   Role based access and functionality for both Admin users and End users.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+-   The admin user can do the following activities:
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+    1. Admin can build a dynamic form. And, Edit/delete the created form in future.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+    1. Admin can add N number of fields as per the need. Supported fields are **_Text, Paragraph, Number, Email, Phone, Pincode, Checkbox, Radio, Single Dropdown, Multi dropdown & Date_**.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+    1. Admin can set fields as required for filling out. And, can make fields hidden from the user and hide them while printing and downloading.
 
-## Learn More
+    1. Admit can share the form by providing their emaill address while creating the same. Only allowed user can access the form.
 
-To learn more about Next.js, take a look at the following resources:
+    1. Admin can review all the forms submitted by the end user.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+    1. Admin can send those forms as Email and download the same as PDF.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+-   The end user can do the following activities:
 
-## Deploy on Vercel
+    1. User can see the forms which have been shared by the Admin.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    1. User can submit the form by providing details specified in the form. And can edit the same in future.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+    1. Admin can send those forms as Email and download the same as PDF.
+
+<br/>
+
+---
+
+<br/>
+
+### Admin Access:-
+
+- Username: **`admin`**
+
+- Password: **`password`**
+
+### User access:-
+
+> Can be accessed through email address. _Password is not required_.
+
+---
+<br/>
+
+### Live demo: [**here**](https://form-manager-hl4a6f0md-rajezz.vercel.app)
+<br/>
+
+---
+<br/>
+### Dependencies used:
+
+| Name     | Link                                           | Comments                                   |
+| -------- | ---------------------------------------------- | ------------------------------------------ |
+| Nextjs   | <https://nextjs.org/>                          | React Framework                            |
+| Mui      | <https://mui.com/>                             | For frontend components.                   |
+| Axios    | <https://www.npmjs.com/package/axios>          | For communicating with Server through API. |
+| jsPDF    | <https://www.npmjs.com/package/jspdf>          | For generating PDF from HTML.              |
+| Sendgrid | <https://www.npmjs.com/package/@sendgrid/mail> | Used as Mail delivery system.              |
