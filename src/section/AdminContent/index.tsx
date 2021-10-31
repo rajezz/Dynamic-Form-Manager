@@ -5,7 +5,6 @@ import Layout from "layout/Layout"
 
 // Components...
 import AdminFormList from "section/AdminFormList"
-import AdminFormCreate from "section/AdminFormCreate"
 import AdminFormSubmitted from "section/AdminFormSubmitted"
 
 // Library components...
@@ -20,7 +19,6 @@ import {
 	CONTAINED,
 	OUTLINED,
 	FORM_LIST,
-	FORM_CREATE,
 	FORM_SUBMITTED,
 	nameLabelMap
 } from "_data/form-data"
@@ -32,8 +30,6 @@ export default function AdminContent({}: any) {
 		switch (page) {
 			case FORM_LIST:
 				return <AdminFormList />
-			case FORM_CREATE:
-				return <AdminFormCreate />
 			case FORM_SUBMITTED:
 				return <AdminFormSubmitted />
 		}
@@ -42,7 +38,7 @@ export default function AdminContent({}: any) {
 		<div className="content-section">
 			<div className="action-panel">
 				<ButtonGroup aria-label="medium button group">
-					{[FORM_LIST, FORM_CREATE, FORM_SUBMITTED].map((pageName) => (
+					{[FORM_LIST, FORM_SUBMITTED].map((pageName) => (
 						<Button
 							variant={page === pageName ? CONTAINED : OUTLINED}
 							onClick={() => setPage(pageName)}>

@@ -20,15 +20,18 @@ export default function InputText({
 	handleChange
 }: IField) {
 	return (
-		<TextField
-			key={name}
-			required={required}
-			className={`form-input text`}
-			label={label}
-			{...typeMap[type]}
-			value={value}
-			onChange={handleChange}
-			size="small"
-		/>
+		<div className={`form-input select${required ? " required" : ""}`} key={name}>
+			<label className="label" htmlFor={name}>
+				{label}
+			</label>
+			<input
+				className="native-input"
+				id={name}
+				name={name}
+				type="text"
+				value={value}
+				onChange={handleChange}
+			/>
+		</div>
 	)
 }

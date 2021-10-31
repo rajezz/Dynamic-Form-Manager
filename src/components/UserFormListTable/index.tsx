@@ -8,8 +8,7 @@ import TableHead from "@mui/material/TableHead"
 import TablePagination from "@mui/material/TablePagination"
 import TableRow from "@mui/material/TableRow"
 
-import DeleteIcon from "components/DeleteIcon"
-
+import { CreateIcon, EmailIcon, PDFIcon } from "components/Icon"
 
 export default function UserFormListTable({ rows, columns, onCreate, onDownload, onEmail }: any) {
 	/* 	const [page, setPage] = React.useState(0)
@@ -63,19 +62,22 @@ export default function UserFormListTable({ rows, columns, onCreate, onDownload,
 								})}
 								<TableCell key={11} align="center">
 									<button
-										className="icon-btn delete"
+										title="Fill/Update the Form"
+										className="icon-btn create"
 										onClick={(e) => onCreate(index)}>
-										<DeleteIcon />
+										<CreateIcon />
 									</button>
 									<button
-										className="icon-btn delete"
+										title="Download as PDF"
+										className="icon-btn m-l-1 download"
 										onClick={(e) => onDownload(index)}>
-										<DeleteIcon />
+										<PDFIcon />
 									</button>
 									<button
-										className="icon-btn delete"
+										title="Send as Email"
+										className="icon-btn m-l-1 email"
 										onClick={(e) => onEmail(index)}>
-										<DeleteIcon />
+										<EmailIcon />
 									</button>
 								</TableCell>
 							</TableRow>

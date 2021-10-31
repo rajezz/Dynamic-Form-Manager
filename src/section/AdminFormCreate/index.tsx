@@ -11,6 +11,7 @@ import Button from "@mui/material/Button"
 
 //Components...
 import InputText from "components/InputText"
+import MUIInputText from "components/MUIInputText"
 import InputSelect from "components/InputSelect"
 import InputDate from "components/InputDate"
 import FieldListTable from "components/FieldListTable"
@@ -22,29 +23,46 @@ import { getEmptyField, generateUUID, validateForm } from "lib/form-handler"
 // Data...
 import { CONTAINED, OUTLINED } from "_data/form-data"
 
-export default function AdminFormCreate() {
+export default function AdminFormCreate({
+	currentForm,
+	onCancel
+}: {
+	currentForm?: IForm
+	onCancel: any
+}) {
 	const router = useRouter()
-	const [values, setValues] = useState<IForm>({
+	const [form, setForm] = useState<IForm>({
 		id: generateUUID(),
 		name: "",
 		validity: new Date().toString(),
 		status: "",
 		accessibleUser: "",
 		fields: [],
-		createdAt: ""
+		createdAt: "",
+		updatedAt: ""
 	})
+
+	useEffect(() => {
+		if (currentForm) {
+			const formValues: any = JSON.parse(JSON.stringify(currentForm))
+
+			setForm((prevValue) => {
+				return formValues
+			})
+		}
+	}, [])
 	const [message, setMessage] = useState<string>("")
-	const [messageType, setMessageType] = useState<string>("")
+	const [isSuccessMessage, toggleMessageType] = useState<boolean>(false)
 
 	const handleChange = (name: string, value: any) => {
-		setValues((prevValues: any) => ({ ...prevValues, [name]: value }))
-		console.log("handleChange called !! ", values)
+		setForm((prevValues: any) => ({ ...prevValues, [name]: value }))
+		console.log("handleChange called !! ", form)
 	}
 
 	function handleFieldChange(fieldIndex: number, key: string, value: string | boolean) {
-		setValues((prevValues) => ({
+		setForm((prevValues) => ({
 			...prevValues,
-			fields: prevValues.fields.map((field, i) => {
+			fields: prevValues.fields?.map((field, i) => {
 				if (i === fieldIndex) {
 					return { ...field, [key]: value }
 				} else {
@@ -59,16 +77,16 @@ export default function AdminFormCreate() {
 			arr.splice(index, 1)
 			return arr
 		}
-		setValues((prevValues) => ({
+		setForm((prevValues) => ({
 			...prevValues,
-			fields: deleteItemFromArray(prevValues.fields, index)
+			fields: deleteItemFromArray(prevValues.fields || [], index)
 		}))
 	}
 
 	function addField() {
-		setValues((prevValues) => ({
+		setForm((prevValues) => ({
 			...prevValues,
-			fields: prevValues.fields.concat(getEmptyField())
+			fields: prevValues.fields?.concat(getEmptyField())
 		}))
 	}
 
@@ -77,22 +95,44 @@ export default function AdminFormCreate() {
 		let contentToBeStored = ``
 		if (storedForms) {
 			const parsedContent = JSON.parse(storedForms)
-			contentToBeStored = JSON.stringify(parsedContent.concat(form))
+			let isExist: boolean = false,
+				index: number = -1
+			
+			parsedContent.forEach((storedForm: any, i: number) => {
+				if (!isExist && storedForm.id === form.id) {
+					form.updatedAt = new Date().toISOString()
+					isExist = true
+					index = i
+				}
+			})
+			if (isExist) {
+				index > -1 ? parsedContent.splice(index, 1, form) : null
+				contentToBeStored = JSON.stringify(parsedContent)
+			} else {
+				form.createdAt = new Date().toISOString()
+				form.updatedAt = new Date().toISOString()
+				contentToBeStored = JSON.stringify(parsedContent.concat(form))
+			}
 		} else {
+			form.createdAt = new Date().toISOString()
+			form.updatedAt = new Date().toISOString()
 			contentToBeStored = JSON.stringify([form])
 		}
 		localStorage.setItem("forms", contentToBeStored)
 	}
 
 	function saveForm() {
-		const [valid, errors, form] = validateForm({ ...values })
+		const [valid, errors, updatedForm] = validateForm({ ...form })
 		if (!valid) {
 			console.error(errors)
-			setMessageType("error")
+			toggleMessageType(false)
 			setMessage(errors.join(", "))
+			setTimeout(function (e) {
+				setMessage("")
+			}, 6000)
 		} else {
-			storeInLocalstorage(form)
-			setMessageType("success")
+			storeInLocalstorage(updatedForm)
+			toggleMessageType(true)
 			setMessage("Form created Successfully.")
 			router.reload()
 		}
@@ -104,7 +144,7 @@ export default function AdminFormCreate() {
 				<InputText
 					id={1}
 					handleChange={(e: any) => handleChange("name", e.currentTarget.value)}
-					value={values["name"]}
+					value={form["name"]}
 					label="Form name"
 					name="name"
 					required={true}
@@ -114,9 +154,9 @@ export default function AdminFormCreate() {
 					id={2}
 					handleChange={(e: any) => {
 						console.log(e)
-						handleChange("validity", e)
+						handleChange("validity", e.target.value)
 					}}
-					value={values["validity"]}
+					value={form["validity"]}
 					label="Validity"
 					name="validity"
 					required={true}
@@ -125,7 +165,7 @@ export default function AdminFormCreate() {
 				<InputSelect
 					id={3}
 					handleChange={(e: any) => handleChange("status", e.value)}
-					value={values["status"]}
+					value={form["status"]}
 					label="Form status"
 					name="status"
 					required={true}
@@ -134,10 +174,10 @@ export default function AdminFormCreate() {
 				/>
 			</div>
 			<div className="row flex-start">
-				<InputText
+				<MUIInputText
 					id={4}
 					handleChange={(e: any) => handleChange("accessibleUser", e.currentTarget.value)}
-					value={values["accessibleUser"]}
+					value={form["accessibleUser"]}
 					label="Accessible User"
 					name="accessibleUser"
 					required={true}
@@ -151,7 +191,7 @@ export default function AdminFormCreate() {
 					</Button>
 				</div>
 				<FieldListTable
-					form={values}
+					form={form}
 					handleChange={handleFieldChange}
 					onDelete={handleOnDeletField}
 				/>
@@ -160,11 +200,7 @@ export default function AdminFormCreate() {
 						Save Form
 					</Button>
 				</div>
-				<SnackBar
-					message={message}
-					type={messageType}
-				/>
-				
+				<SnackBar message={message} success={isSuccessMessage} />
 			</div>
 		</div>
 	)

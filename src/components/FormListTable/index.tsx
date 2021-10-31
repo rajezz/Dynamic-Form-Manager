@@ -8,22 +8,10 @@ import TableHead from "@mui/material/TableHead"
 import TablePagination from "@mui/material/TablePagination"
 import TableRow from "@mui/material/TableRow"
 
-import DeleteIcon from "components/DeleteIcon"
+import { DeleteIcon, EditIcon } from "components/Icon"
 
 
-export default function FormListTable({ rows, columns, onDelete }: any) {
-	/* 	const [page, setPage] = React.useState(0)
-	const [rowsPerPage, setRowsPerPage] = React.useState(10)
-
-	const handleChangePage = (event: unknown, newPage: number) => {
-		setPage(newPage)
-	}
-
-	const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setRowsPerPage(+event.target.value)
-		setPage(0)
-	}
- */
+export default function FormListTable({ rows, columns,onUpdate, onDelete }: any) {
 	return (
 		<TableContainer className="table-container">
 			<Table className="table">
@@ -63,6 +51,13 @@ export default function FormListTable({ rows, columns, onDelete }: any) {
 								})}
 								<TableCell key={11} align="center">
 									<button
+										title="Edit Form"
+										className="icon-btn update"
+										onClick={(e) => onUpdate(index)}>
+										<EditIcon />
+									</button>
+									<button
+										title="Delete form"
 										className="icon-btn delete"
 										onClick={(e) => onDelete(index)}>
 										<DeleteIcon />

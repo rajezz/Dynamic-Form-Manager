@@ -8,15 +8,26 @@ import { IField } from "types/FormInput"
 // Data...
 import { typeMap } from "_data/form-data"
 
-const valuesFormatter = (options: Array<string> | string): Array<any> => {
+const valuesFormatter = (options: Array<string> | string): any => {
 	if (Array.isArray(options)) {
 		return options.map((option) => ({ value: option, label: option }))
+	} else if (options && typeof options === "string") {
+		return { value: options, label: options }
 	}
-	return []
+	return null
 }
 
-const optionFormatter = (options: Array<string> | undefined): Array<any> | undefined =>
-	options?.map((option) => ({ value: option, label: option }))
+const optionFormatter = (options: Array<string> | string | undefined): Array<any> => {
+	if (Array.isArray(options)) {
+		return options.map((option) => ({ value: option, label: option }))
+	} else if (typeof options === "string") {
+		const splits = options.split(",")
+		return splits.map((option: string) => ({ value: option.trim(), label: option.trim() }))
+	} else {
+		return []
+	}
+
+}
 
 export default function InputSelect({
 	name,
@@ -29,7 +40,9 @@ export default function InputSelect({
 }: IField) {
 	return (
 		<div className={`form-input select${required ? " required" : ""}`} key={name}>
-			<label htmlFor={name}>{label}</label>
+			<label className="label" htmlFor={name}>
+				{label}
+			</label>
 			<Select
 				id={name}
 				name={name}

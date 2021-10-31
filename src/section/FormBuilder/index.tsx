@@ -18,7 +18,8 @@ import {
 	TYPE_DROPDOWN,
 	TYPE_MULTI_DROPDOWN,
 	TYPE_DATE,
-	TYPE_ELEMENT_MAP
+	TYPE_ELEMENT_MAP,
+	CONTAINED
 } from "_data/form-data"
 
 // Components...
@@ -26,8 +27,21 @@ import InputCheckbox from "components/InputCheckbox"
 import InputRadio from "components/InputRadio"
 import InputText from "components/InputText"
 import InputSelect from "components/InputSelect"
+import { OUTLINED } from '../../_data/form-data';
 
-export default function FormBuilder({ fields, onChange }: { fields: any[]; onChange: any }) {
+export default function FormBuilder({
+	formName,
+	fields,
+	onChange,
+	onSave,
+	onCancel
+}: {
+	formName: string
+	fields: any[] | undefined
+	onChange: any
+	onSave: any
+	onCancel: any
+}) {
 	/* function getRequiredField({ field }: { field: IField }) {
         switch (field.type) {
 			case TYPE_TEXT:
@@ -61,78 +75,53 @@ export default function FormBuilder({ fields, onChange }: { fields: any[]; onCha
 		}
     } */
 
-    function handleChange(event: any, field: IField) {
-        let value:any = null
-        switch (field.type) {
+	function handleChange(event: any, field: IField, i: number) {
+		let value: any = null
+		switch (field.type) {
 			case TYPE_TEXT:
 			case TYPE_PARAGRAPH:
 			case TYPE_NUMBER:
 			case TYPE_EMAIL:
 			case TYPE_PHONE:
+			case TYPE_DATE:
 			case TYPE_PIN_CODE:
 			case TYPE_RADIO:
 				value = event.currentTarget.value
 				break
 			case TYPE_DROPDOWN:
-            case TYPE_MULTI_DROPDOWN:
-                value = Array.isArray(event) ? event.map((elem: any) => elem.value) : event.value
-				handleChange(field.name, value)
-				break
-			case TYPE_DATE:
+			case TYPE_MULTI_DROPDOWN:
+				value = Array.isArray(event) ? event.map((elem: any) => elem.value) : event.value
 				break
 			case TYPE_CHECKBOX:
 				value = event.currentTarget.checked
 				break
 		}
-    }
+		onChange("value", value, i)
+	}
 
-	function getRequiredField({ field }: { field: IField }) {
-		const InputElement = TYPE_ELEMENT_MAP[field.type]
-		return <InputElement handleChange={(e: any) => handleChange(e, field)} {...field} />
+	function getRequiredField(field: IField, i: number) {
+		if (field) {
+			const InputElement = TYPE_ELEMENT_MAP[field.type]
+			return <InputElement handleChange={(e: any) => handleChange(e, field, i)} {...field} />
+		}
 	}
 	return (
-		<div className="form">
-			{fields.map((field) => getRequiredField(field))}
-			{/* {formInputsCheckbox.map((input) => (
-						<InputCheckbox
-							handleChange={(e: any) =>
-								handleChange(input.name, e.currentTarget.checked)
-							}
-							{...input}
-							value={values[input.name]}
-						/>
-					))}
-					{formInputsRadio.map((input) => (
-						<InputRadio
-							handleChange={(e: any) =>
-								handleChange(input.name, e.currentTarget.value)
-							}
-							{...input}
-							value={values[input.name]}
-						/>
-					))}
-					{formInputText.map((input) => (
-						<InputText
-							handleChange={(e: any) =>
-								handleChange(input.name, e.currentTarget.value)
-							}
-							{...input}
-							value={values[input.name]}
-						/>
-					))}
-					{formInputSelect.map((input) => (
-						<InputSelect
-							handleChange={(e: any) => {
-								console.log("Selected > ", e)
-								const value = Array.isArray(e)
-									? e.map((elem: any) => elem.value)
-									: e.value
-								handleChange(input.name, value)
-							}}
-							{...input}
-							value={values[input.name]}
-						/>
-					))} */}
+		<div className="user-form">
+			<div className="title-pane">
+				<div className="title">{formName}</div>
+				<div className="description">
+					Please fill out the form. Fields marked as Asterik (*) are required fields.
+				</div>
+			</div>
+			{fields && fields.length > 0 && fields.map((field, i) => getRequiredField(field, i))}
+			<div className="btn-panel">
+				<Button variant={CONTAINED} onClick={onSave}>
+					Save
+				</Button>
+				<Button variant={OUTLINED} onClick={onCancel}>
+					Cancel
+				</Button>
+			</div>
 		</div>
 	)
 }

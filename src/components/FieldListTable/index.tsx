@@ -9,10 +9,10 @@ import { typeMap, fieldTableColumns } from "_data/form-data"
 import { IForm } from "types/Form"
 
 //Components...
-import InputText from "components/InputText"
+import MUIInputText from "components/MUIInputText"
 import InputSelect from "components/InputSelect"
 import InputCheckbox from "components/InputCheckbox"
-import DeleteIcon from "components/DeleteIcon"
+import {DeleteIcon} from "components/Icon"
 
 // Library components...
 import Select from "react-select"
@@ -48,7 +48,7 @@ export default function FieldListTable({
 						</tr>
 					</thead>
 					<tbody>
-						{form.fields.length === 0 ? (
+						{form.fields?.length === 0 ? (
 							<tr className="no-row">
 								<td colSpan={fieldTableColumns.length}>
 									No forms fields to show. Create one!
@@ -57,11 +57,11 @@ export default function FieldListTable({
 						) : (
 							""
 						)}
-						{form.fields.map((field: any, index: number) => {
+						{form.fields?.map((field: any, index: number) => {
 							return (
 								<tr key={field.code}>
 									<td>
-										<InputText
+										<MUIInputText
 											id={field["id"]}
 											handleChange={(e: any) =>
 												handleChange(index, "label", e.currentTarget.value)
@@ -86,8 +86,10 @@ export default function FieldListTable({
 										/>
 									</td>
 									<td>
-										{["DROPDOWN", "MULTI_DROPDOWN"].includes(field["type"]) ? (
-											<InputText
+										{["DROPDOWN", "MULTI_DROPDOWN", "RADIO"].includes(
+											field["type"]
+										) ? (
+											<MUIInputText
 												id={field["id"]}
 												handleChange={(e: any) =>
 													handleChange(
@@ -156,6 +158,7 @@ export default function FieldListTable({
 									</td>
 									<td className="delete-action">
 										<button
+											title="Delete form field"
 											className="icon-btn delete"
 											onClick={(e) => onDelete(index)}>
 											<DeleteIcon />

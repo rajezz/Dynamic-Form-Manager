@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext, Fragment } from "react"
 import { useRouter } from "next/router"
 
 // Layouts...
 import Layout from "layout/Layout"
 
-import { IForm } from "types/Form"
+import { IForm, ISubmittedForm } from "types/Form"
+import { IField } from "types/FormInput"
 
 // Library components...
 import Button from "@mui/material/Button"
@@ -20,111 +21,152 @@ import InputSelect from "components/InputSelect"
 import InputDate from "components/InputDate"
 import FieldListTable from "components/FieldListTable"
 import SnackBar from "components/SnackBar"
+import FormBuilder from "section/FormBuilder"
+import { UserContext } from "section/UserContext"
 
 // libraries...
-import { getEmptyField, generateUUID, validateForm } from "lib/form-handler"
+import { getEmptyField, generateUUID, validateUserForm } from "lib/form-handler"
 
 // Data...
 import { CONTAINED, OUTLINED } from "_data/form-data"
 
+function safeFetchArray(form: any, key: string, defaultValue: []) {
+	return form ? form[key] : defaultValue
+}
+function safeFetchString(form: any, key: string, defaultValue: string) {
+	return form ? form[key] : defaultValue
+}
+
 export default function UserFormCreate({
+	email,
 	form,
-	state,
-	toggleState
+	onCancel
 }: {
-	form: IForm | null
-	state: boolean
-	toggleState: any
+	email: string
+	form: IForm
+	onCancel: any
 }) {
 	const router = useRouter()
-	const [values, setValues] = useState<any>({
-		id: generateUUID(),
-		fields: form?.fields,
-		formName: form?.name,
-		formId: form?.id,
-		createdAt: ""
-	})
+
+	const [loaded, setLoaded] = useState(false)
 	const [message, setMessage] = useState<string>("")
-	const [messageType, setMessageType] = useState<string>("")
+	const [isSuccessMessage, toggleMessageType] = useState<boolean>(false)
 
-	const handleChange = (name: string, value: any) => {
-		setValues((prevValues: any) => ({ ...prevValues, [name]: value }))
-		console.log("handleChange called !! ", values)
-	}
+	const [userForm, setUserForm] = useState<ISubmittedForm>({
+		id: generateUUID(),
+		fields: [],
+		formName: "",
+		formId: 0,
+		submittedUser: "",
+		createdAt: "",
+		updatedAt: ""
+	})
 
-	/* function handleFieldChange(fieldIndex: number, key: string, value: string | boolean) {
-		setValues((prevValues: any) => ({
+	useEffect(() => {
+		let formValues: any = {}
+
+		form?.id ? (formValues["formId"] = form.id) : null
+		form?.name ? (formValues["formName"] = form.name) : null
+		form?.fields ? (formValues["fields"] = form.fields) : null
+		form?.createdAt ? (formValues["createdAt"] = form.createdAt) : null
+		form?.updatedAt ? (formValues["updatedAt"] = form.updatedAt) : null
+
+		formValues["submittedUser"] = email
+
+		setUserForm((prevValue) => {
+			let updatedContent:any = {}
+			Object.assign(updatedContent, prevValue, formValues)
+			return updatedContent
+		})
+		setLoaded(true)
+	}, [])
+
+	const handleChange = (name: string, value: any, i: number) => {
+		setUserForm((prevValues: any) => ({
 			...prevValues,
-			fields: prevValues.fields.map((field, i) => {
-				if (i === fieldIndex) {
-					return { ...field, [key]: value }
+			fields: prevValues.fields?.map((field: IField, index: number) => {
+				if (i === index) {
+					return { ...field, [name]: value }
 				} else {
 					return field
 				}
 			})
 		}))
-	} */
-
-	function handleOnDeletField(index: number) {
-		const deleteItemFromArray = (arr: any[], index: number): any[] => {
-			arr.splice(index, 1)
-			return arr
-		}
-		setValues((prevValues: any) => ({
-			...prevValues,
-			fields: deleteItemFromArray(prevValues.fields, index)
-		}))
+		console.log("handleChange called !! ", userForm)
 	}
 
-	function addField() {
-		setValues((prevValues: any) => ({
-			...prevValues,
-			fields: prevValues.fields.concat(getEmptyField())
-		}))
-	}
-
-	function storeInLocalstorage(form: IForm) {
-		const storedForms = localStorage.getItem("forms")
+	function storeInLocalstorage(form: ISubmittedForm) {
+		const storedForms = localStorage.getItem("submittedForms")
 		let contentToBeStored = ``
 		if (storedForms) {
-			const parsedContent = JSON.parse(storedForms)
-			contentToBeStored = JSON.stringify(parsedContent.concat(form))
+			let parsedContent = JSON.parse(storedForms)
+			let isExist: boolean = false, index:number = -1
+			parsedContent.forEach((storedForm: any, i:number) => {
+				if (
+					!isExist &&
+					storedForm.formId === form.formId &&
+					form.submittedUser === storedForm.submittedUser
+				) {
+					form.updatedAt = new Date().toISOString()
+					isExist = true
+					index = i
+				}
+			})
+			if (isExist) {
+				index > -1 ? parsedContent.splice(index, 1, form) : null
+				contentToBeStored = JSON.stringify(parsedContent)
+			} else {
+				form.createdAt = new Date().toISOString()
+				form.updatedAt = new Date().toISOString()
+				contentToBeStored = JSON.stringify(parsedContent.concat(form))
+			}
 		} else {
+			form.createdAt = new Date().toISOString()
+			form.updatedAt = new Date().toISOString()
 			contentToBeStored = JSON.stringify([form])
 		}
-		localStorage.setItem("forms", contentToBeStored)
+		localStorage.setItem("submittedForms", contentToBeStored)
 	}
 
-	function saveForm() {
-		const [valid, errors, form] = validateForm({ ...values })
+	function saveUserForm() {
+		const [valid, errors] = validateUserForm(userForm)
 		if (!valid) {
 			console.error(errors)
-			setMessageType("error")
+			toggleMessageType(false)
 			setMessage(errors.join(", "))
+			setTimeout(function (e) {
+				setMessage("")
+			}, 6000)
 		} else {
-			storeInLocalstorage(form)
-			setMessageType("success")
-			setMessage("Form created Successfully.")
+			storeInLocalstorage(userForm)
+			toggleMessageType(true)
+			setMessage("Form submitted Successfully.")
 			router.reload()
 		}
 	}
 
-	function handleClose() {}
+	function loadContent() {
+		if (loaded) {
+			return (
+				<div className="form-section">
+					<FormBuilder
+						fields={userForm.fields}
+						onChange={handleChange}
+						onSave={saveUserForm}
+						onCancel={onCancel}
+						formName={userForm.formName}
+					/>
+				</div>
+			)
+		} else {
+			return <div>Loading...</div>
+		}
+	}
 
 	return (
-		<Dialog open={state} onClose={(e) => toggleState(false)}>
-			<DialogTitle>Subscribe</DialogTitle>
-			<DialogContent>
-				<DialogContentText>
-					To subscribe to this website, please enter your email address here. We will send
-					updates occasionally.
-				</DialogContentText>
-				
-			</DialogContent>
-			<DialogActions>
-				<Button onClick={(e) => toggleState(false)}>Cancel</Button>
-				<Button onClick={toggleState}>Subscribe</Button>
-			</DialogActions>
-		</Dialog>
+		<Fragment>
+			{loadContent()}
+			<SnackBar message={message} success={isSuccessMessage} />
+		</Fragment>
 	)
 }

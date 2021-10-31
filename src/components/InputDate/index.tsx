@@ -13,16 +13,19 @@ import { IField } from "types/FormInput"
 
 export default function InputDate({ name, value, label, required, handleChange }: IField) {
 	return (
-		<LocalizationProvider key={name} dateAdapter={AdapterDateFns}>
-			<DesktopDatePicker
-				className={`form-input date${required ? " required" : ""}`}
-				label={label}
-				inputFormat="MM/dd/yyyy"
+		<div className={`form-input select${required ? " required" : ""}`} key={name}>
+			<label className="label" htmlFor={name}>
+				{label}
+			</label>
+			<input
+				className="native-input"
+				id={name}
+				name={name}
+				type="date"
 				value={value}
 				onChange={handleChange}
-				renderInput={(params: any) => <TextField size="small" id={name} {...params} />}
 			/>
-		</LocalizationProvider>
+		</div>
 	)
 }
 /* <TextField

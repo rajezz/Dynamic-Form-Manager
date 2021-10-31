@@ -1,22 +1,18 @@
 import Snackbar, { SnackbarOrigin } from "@mui/material/Snackbar"
 import MuiAlert, { AlertProps } from "@mui/material/Alert"
 import React from "react"
-
-const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
-	return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
-})
+import { SuccessIcon, ErrorIcon } from "components/Icon"
 
 interface ISnackBarProps {
-    message: string
-    type: any
+	message: string
+	success: boolean
 }
 
-export default function SnackBar({ message, type }: ISnackBarProps) {
+export default function SnackBar({ message, success }: ISnackBarProps) {
 	return (
-		<Snackbar
-			anchorOrigin={{ vertical: "top", horizontal: "center" }}
-			open={message.length > 0}>
-			<Alert severity={type}>{message}</Alert>
-		</Snackbar>
+		<div className={`alert ${success ? "success" : "error"} ${message === "" ? "hide" : ""}`}>
+			<div className="icon">{success ? <SuccessIcon /> : <ErrorIcon />}</div>
+			<div className="text">{message}</div>
+		</div>
 	)
 }

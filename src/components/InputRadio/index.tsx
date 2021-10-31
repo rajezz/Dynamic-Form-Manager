@@ -10,6 +10,16 @@ import Radio from "@mui/material/Radio"
 // Types...
 import { IField } from "types/FormInput"
 
+const optionFormatter = (options: Array<string> | string | undefined): Array<any> => {
+	if (Array.isArray(options)) {
+		return options.map((option) => option)
+	} else if (typeof options === "string") {
+		const splits = options.split(",")
+		return splits.map((option: string) => option.trim())
+	} else {
+		return []
+	}
+}
 export default function InputRadio({
 	name,
 	value,
@@ -18,16 +28,16 @@ export default function InputRadio({
 	options,
 	handleChange
 }: IField) {
-	
-	const requiredAttr = required ? { component: "legend" } : {}
-
 	return (
-		<FormControl className={`form-input radio`} component="fieldset" key={name}>
-			<FormLabel className={`form-input radio${required ? " required" : ""}`} component="legend">{label}</FormLabel>
+		<FormControl
+			className={`form-input radio${required ? " required" : ""}`}
+			component="fieldset"
+			key={name}>
+			<label className="label">{label}</label>
 			<RadioGroup value={value} onChange={handleChange} aria-label={label}>
-				{options?.map((option) => (
+				{optionFormatter(options).map((option) => (
 					<FormControlLabel
-						value={option.toLowerCase()}
+						value={option}
 						control={<Radio />}
 						label={option}
 						key={option}
