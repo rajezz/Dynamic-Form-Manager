@@ -42,7 +42,7 @@ A Next.js application built on React with TypeScript to build and manage Forms.
 
 ---
 
-### Live demo: [**here**](https://form-manager-hl4a6f0md-rajezz.vercel.app)
+### Live demo: [**here**](https://form-manager-b2ysl96vl-rajezz.vercel.app)
 
 ---
 
