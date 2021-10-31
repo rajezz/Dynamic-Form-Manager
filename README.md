@@ -1,10 +1,10 @@
-# Dynammic Form Manager
+# Dynamic Form Manager
 
 A Next.js application built on React with TypeScript to build and manage Forms.
 
 ### Application functionality:-
 
--   Role based access and functionality for both Admin users and End users.
+-   The application ensure role based access and functionality for both Admin users and End users.
 
 -   The admin user can do the following activities:
 
@@ -28,11 +28,7 @@ A Next.js application built on React with TypeScript to build and manage Forms.
 
     1. Admin can send those forms as Email and download the same as PDF.
 
-<br/>
-
 ---
-
-<br/>
 
 ### Admin Access:-
 
@@ -42,19 +38,17 @@ A Next.js application built on React with TypeScript to build and manage Forms.
 
 ### User access:-
 
-> Can be accessed through email address. _Password is not required_.
+> Can be accessed through email address. _**Password is not required**_.
 
 ---
-<br/>
 
 ### Live demo: [**here**](https://form-manager-hl4a6f0md-rajezz.vercel.app)
-<br/>
 
 ---
-<br/>
+
 ### Dependencies used:
 
-| Name     | Link                                           | Comments                                   |
+| Name     | Link                                           | Notes                                   |
 | -------- | ---------------------------------------------- | ------------------------------------------ |
 | Nextjs   | <https://nextjs.org/>                          | React Framework                            |
 | Mui      | <https://mui.com/>                             | For frontend components.                   |
