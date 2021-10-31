@@ -141,7 +141,7 @@ export default function UserContent({ email }: { email: string }) {
 					formName: currentForm.name,
 					createdAt: currentForm.createdAt,
 					updatedAt: currentForm.updatedAt,
-					fields: currentForm.fields
+					fields: currentForm.fields,
 				})
 				onDialogClose()
 			}

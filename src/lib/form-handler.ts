@@ -203,7 +203,7 @@ export async function sendMail({
 	createdAt,
 	updatedAt,
 	fields,
-	submittedUser
+	submittedUser,
 }: {
 	to: string
 	formName: string
@@ -231,7 +231,7 @@ export async function sendMail({
 			},
 			body: JSON.stringify(msg)
 		}
-		const response = await axios.post("http://localhost:3000/api/send-mail", option)
+		const response = await axios.post(`https://${window.location.hostname}/api/send-mail`, option)
 		console.log("Email sent > ", response)
 		return response
 	} catch (error) {
