@@ -9,7 +9,7 @@ import TextField from "@mui/material/TextField"
 import { IField } from "types/FormInput"
 
 // Data...
-import { typeMap } from "_data/form-data"
+import { typeMap } from "_data/constants"
 
 export default function MUIInputText({ name, value, label, type, required, handleChange }: IField) {
 	return (

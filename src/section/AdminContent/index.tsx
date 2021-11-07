@@ -21,7 +21,7 @@ import {
 	FORM_LIST,
 	FORM_SUBMITTED,
 	nameLabelMap
-} from "_data/form-data"
+} from "_data/constants"
 
 export default function AdminContent({}: any) {
 	const [page, setPage] = useState(FORM_LIST)

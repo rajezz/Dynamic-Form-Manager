@@ -14,7 +14,7 @@ import ButtonGroup from "@mui/material/ButtonGroup"
 import { UserContext } from "section/UserContext"
 
 // Data...
-import { userFormTableColumns } from "_data/form-data"
+import { userFormTableColumns } from "_data/constants"
 
 function formatForm(forms: any[]) {
 	return forms.map((form) => ({
@@ -36,8 +36,8 @@ import {
 	FORM_CREATE,
 	FORM_SUBMITTED,
 	nameLabelMap
-} from "_data/form-data"
-import { sendMail, downloadPDF } from "lib/form-handler"
+} from "_data/constants"
+import { sendMail, downloadPDF } from "lib/FormHandler"
 
 function getSubmittedForm(id: number, submittedForms: any[], email: string) {
 	const index = submittedForms.findIndex(

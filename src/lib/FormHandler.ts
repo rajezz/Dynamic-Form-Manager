@@ -20,7 +20,7 @@ import {
 	TYPE_MULTI_DROPDOWN,
 	TYPE_DATE,
 	TYPE_REGEX_MAP
-} from "_data/form-data"
+} from "_data/constants"
 
 function validateEmail(email: string): boolean {
 	return EMAIL_REGEX.test(email.trim())

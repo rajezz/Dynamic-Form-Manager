@@ -1,20 +1,23 @@
-import React from "react"
-
-// Layouts...
-import Layout from "layout/Layout"
-
 // Data...
-import { typeMap, fieldTableColumns } from "_data/form-data"
+import {
+	typeMap,
+	fieldTableColumns,
+	REDUCER_ACTION_INSERT,
+	REDUCER_ACTION_UPDATE,
+	REDUCER_ACTION_DELETE,
+	REDUCER_ACTION_SELECT,
+	REDUCER_ACTION_UNSELECT,
+	REDUCER_ACTION_UPDATE_FIELD
+} from "_data/constants"
 
 import { IForm } from "types/Form"
 
 //Components...
-import MUIInputText from "components/MUIInputText"
-import InputSelect from "components/InputSelect"
-import InputCheckbox from "components/InputCheckbox"
-import {DeleteIcon} from "components/Icon"
+import { DeleteIcon } from "components/Icon"
 
 // Library components...
+import MUIInputText from "components/MUIInputText"
+import InputCheckbox from "components/InputCheckbox"
 import Select from "react-select"
 
 const valuesFormatter = (value: string): any => ({ value, label: value })
@@ -24,12 +27,10 @@ const optionFormatter = (options: Array<string> | undefined): Array<any> | undef
 
 export default function FieldListTable({
 	form,
-	handleChange,
-	onDelete
+	dispatch,
 }: {
 	form: IForm
-	handleChange: (index: number, key: string, value: string | boolean) => any
-	onDelete: (index: number) => any
+	dispatch: any
 }) {
 	return (
 		<div className="field-list-panel">
@@ -41,7 +42,8 @@ export default function FieldListTable({
 								<th
 									key={column.id}
 									align="center"
-									style={{ minWidth: column.minWidth }}>
+									style={{ minWidth: column.minWidth }}
+								>
 									{column.label}
 								</th>
 							))}
@@ -64,7 +66,11 @@ export default function FieldListTable({
 										<MUIInputText
 											id={field["id"]}
 											handleChange={(e: any) =>
-												handleChange(index, "label", e.currentTarget.value)
+												dispatch({
+													type: REDUCER_ACTION_UPDATE_FIELD,
+													id: field.id,
+													values: { label: e.currentTarget.value }
+												})
 											}
 											value={field["label"]}
 											label="Field name"
@@ -79,7 +85,11 @@ export default function FieldListTable({
 											id="type"
 											value={valuesFormatter(field["type"])}
 											onChange={(e: any) =>
-												handleChange(index, "type", e.value)
+												dispatch({
+													type: REDUCER_ACTION_UPDATE_FIELD,
+													id: field.id,
+													values: { type: e.value }
+												})
 											}
 											isSearchable={true}
 											options={optionFormatter(Object.keys(typeMap))}
@@ -92,11 +102,11 @@ export default function FieldListTable({
 											<MUIInputText
 												id={field["id"]}
 												handleChange={(e: any) =>
-													handleChange(
-														index,
-														"options",
-														e.currentTarget.value
-													)
+													dispatch({
+														type: REDUCER_ACTION_UPDATE_FIELD,
+														id: field.id,
+														values: { options: e.currentTarget.value }
+													})
 												}
 												value={field["options"]}
 												label="Options"
@@ -112,11 +122,11 @@ export default function FieldListTable({
 										<InputCheckbox
 											id={field["id"]}
 											handleChange={(e: any) =>
-												handleChange(
-													index,
-													"required",
-													e.currentTarget.checked
-												)
+												dispatch({
+													type: REDUCER_ACTION_UPDATE_FIELD,
+													id: field.id,
+													values: { required: e.currentTarget.checked }
+												})
 											}
 											value={field["required"]}
 											label="Required"
@@ -128,11 +138,11 @@ export default function FieldListTable({
 										<InputCheckbox
 											id={field["id"]}
 											handleChange={(e: any) =>
-												handleChange(
-													index,
-													"public",
-													e.currentTarget.checked
-												)
+												dispatch({
+													type: REDUCER_ACTION_UPDATE_FIELD,
+													id: field.id,
+													values: { public: e.currentTarget.checked }
+												})
 											}
 											value={field["public"]}
 											label="Public"
@@ -144,11 +154,11 @@ export default function FieldListTable({
 										<InputCheckbox
 											id={field["id"]}
 											handleChange={(e: any) =>
-												handleChange(
-													index,
-													"printable",
-													e.currentTarget.checked
-												)
+												dispatch({
+													type: REDUCER_ACTION_UPDATE_FIELD,
+													id: field.id,
+													values: { printable: e.currentTarget.checked }
+												})
 											}
 											value={field["printable"]}
 											label="Printable"
@@ -160,7 +170,13 @@ export default function FieldListTable({
 										<button
 											title="Delete form field"
 											className="icon-btn delete"
-											onClick={(e) => onDelete(index)}>
+											onClick={(e) =>
+												dispatch({
+													type: REDUCER_ACTION_DELETE,
+													id: field.id
+												})
+											}
+										>
 											<DeleteIcon />
 										</button>
 									</td>

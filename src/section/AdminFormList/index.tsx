@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useReducer, Reducer } from "react"
 import { useRouter } from "next/router"
 
 // Components...
@@ -9,9 +9,20 @@ import AdminFormCreate from "section/AdminFormCreate"
 
 // Library components...
 import Button from "@mui/material/Button"
-import { IForm } from "types/Form"
+import { IForm, IAdminFormState } from "types/Form"
+import { reducer, getEmptyAdminFormState, emptyForm } from "lib/AdminFormReducer"
 // Data...
-import { OUTLINED, FORM_LIST, FORM_CREATE, formTableColumns } from "_data/form-data"
+import {
+	OUTLINED,
+	FORM_LIST,
+	FORM_CREATE,
+	formTableColumns,
+	REDUCER_ACTION_INSERT,
+	REDUCER_ACTION_UPDATE,
+	REDUCER_ACTION_DELETE,
+	REDUCER_ACTION_SELECT,
+	REDUCER_ACTION_UNSELECT
+} from "_data/constants"
 
 function formatForm(forms: any[]) {
 	return forms.map((form) => ({
@@ -28,8 +39,12 @@ function formatForm(forms: any[]) {
 
 export default function AdminFormList() {
 	const router = useRouter()
-	const [forms, setForms] = useState<IForm[]>([])
-	const [selectedForm, setSelectedForm] = useState<IForm>()
+	const [state, dispatch] = useReducer<Reducer<any, any>, any>(
+		reducer,
+		{ forms: [], selectedForm: emptyForm },
+		getEmptyAdminFormState
+	)
+
 	const [page, setPage] = useState<string>(FORM_LIST)
 	const [actionBtnText, setActionBtnText] = useState<string>("Create Form")
 
@@ -39,33 +54,10 @@ export default function AdminFormList() {
 		if (storedForms) {
 			const parsedContent = JSON.parse(storedForms)
 			console.log("parsedContent", parsedContent)
-			setForms(parsedContent)
+			dispatch({ type: REDUCER_ACTION_INSERT, forms: parsedContent })
 		}
 	}, [])
 
-	function onDelete(index: number) {
-		const response = confirm("Are you sure of deleting the form?")
-		if (response) {
-			const deleteItemFromArray = (arr: any[], index: number): any[] => {
-				arr.splice(index, 1)
-				return arr
-			}
-			setForms((prevValues) => {
-				const updatedList = deleteItemFromArray(prevValues, index)
-				localStorage.setItem("forms", JSON.stringify(updatedList))
-
-				return updatedList
-			})
-			router.reload()
-		}
-	}
-
-	function openUpdateFormPage(index: number) {
-		const currentForm = forms[index]
-		setSelectedForm(currentForm)
-		setPage(FORM_CREATE)
-		setActionBtnText("Cancel")
-	}
 	function togglePage() {
 		if (page === FORM_LIST) {
 			setPage(FORM_CREATE)
@@ -76,22 +68,28 @@ export default function AdminFormList() {
 		}
 	}
 
+	function switchPage() {
+		setPage(FORM_LIST)
+		dispatch({ type: REDUCER_ACTION_UNSELECT })
+	}
+
 	function createPageContent() {
 		switch (page) {
 			case FORM_LIST:
 				return (
 					<FormListTable
-						rows={formatForm(forms)}
+						rows={formatForm(state.forms)}
 						columns={formTableColumns}
-						onUpdate={openUpdateFormPage}
-						onDelete={onDelete}
+						dispatch={dispatch}
 					/>
 				)
 			case FORM_CREATE:
 				return (
 					<AdminFormCreate
-						currentForm={selectedForm}
-						onCancel={() => setPage(FORM_LIST)}
+						form={state.selectedForm}
+						dispatch={dispatch}
+						onSave={switchPage}
+						onCancel={switchPage}
 					/>
 				)
 		}

@@ -1,17 +1,28 @@
 import * as React from "react"
-import Paper from "@mui/material/Paper"
 import Table from "@mui/material/Table"
 import TableBody from "@mui/material/TableBody"
 import TableCell from "@mui/material/TableCell"
 import TableContainer from "@mui/material/TableContainer"
 import TableHead from "@mui/material/TableHead"
-import TablePagination from "@mui/material/TablePagination"
 import TableRow from "@mui/material/TableRow"
 
 import { DeleteIcon, EditIcon } from "components/Icon"
 
+import {
+	REDUCER_ACTION_INSERT,
+	REDUCER_ACTION_UPDATE,
+	REDUCER_ACTION_DELETE,
+	REDUCER_ACTION_SELECT,
+	REDUCER_ACTION_UNSELECT
+} from "_data/constants"
 
-export default function FormListTable({ rows, columns,onUpdate, onDelete }: any) {
+export default function FormListTable({ rows, columns, dispatch }: any) {
+	function onDelete(id:number) {
+		const response = confirm("Are you sure of deleting the form?")
+		if (response) {
+			dispatch({ type: REDUCER_ACTION_DELETE, id })
+		}
+	}
 	return (
 		<TableContainer className="table-container">
 			<Table className="table">
@@ -21,7 +32,8 @@ export default function FormListTable({ rows, columns,onUpdate, onDelete }: any)
 							<TableCell
 								key={column.id}
 								align="center"
-								style={{ minWidth: column.minWidth }}>
+								style={{ minWidth: column.minWidth }}
+							>
 								{column.label}
 							</TableCell>
 						))}
@@ -38,7 +50,7 @@ export default function FormListTable({ rows, columns,onUpdate, onDelete }: any)
 					) : (
 						""
 					)}
-					{rows.map((row: any, index: number) => {
+					{rows.map((row: any) => {
 						return (
 							<TableRow role="checkbox" tabIndex={-1} key={row.code}>
 								{columns.map((column: any) => {
@@ -53,13 +65,17 @@ export default function FormListTable({ rows, columns,onUpdate, onDelete }: any)
 									<button
 										title="Edit Form"
 										className="icon-btn update"
-										onClick={(e) => onUpdate(index)}>
+										onClick={() =>
+											dispatch({ type: REDUCER_ACTION_SELECT, form: row })
+										}
+									>
 										<EditIcon />
 									</button>
 									<button
 										title="Delete form"
 										className="icon-btn delete"
-										onClick={(e) => onDelete(index)}>
+										onClick={() => onDelete(row.id)}
+									>
 										<DeleteIcon />
 									</button>
 								</TableCell>

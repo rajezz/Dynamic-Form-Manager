@@ -52,6 +52,17 @@ export const TYPE_MULTI_DROPDOWN: string = "MULTI_DROPDOWN"
 export const TYPE_DATE: string = "DATE"
 export const TYPE_PASSWORD: string = "PASSWORD"
 
+export const REDUCER_ACTION_INSERT: string = "INSERT"
+export const REDUCER_ACTION_UPDATE: string = "UPDATE"
+export const REDUCER_ACTION_UPDATE_FORM: string = "UPDATE-FORM"
+export const REDUCER_ACTION_DELETE: string = "DELETE"
+export const REDUCER_ACTION_SELECT: string = "SELECT"
+export const REDUCER_ACTION_UNSELECT: string = "UNSELECT"
+export const REDUCER_ACTION_INSERT_FIELD: string = "INSERT-FIELD"
+export const REDUCER_ACTION_UPDATE_FIELD: string = "UPDATE-FIELD"
+export const REDUCER_ACTION_DELETE_FIELD: string = "DELETE-FIELD"
+
+
 //{ [index: string]: JSX.Element }
 export const TYPE_ELEMENT_MAP: any = {
 	[TYPE_TEXT]: InputText,

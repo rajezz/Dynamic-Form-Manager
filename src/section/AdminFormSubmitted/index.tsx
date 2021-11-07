@@ -8,9 +8,9 @@ import InputDialog from "components/InputDialog"
 
 // Library components...
 import Button from "@mui/material/Button"
-import { submittedFormTableColumns } from "_data/form-data"
+import { submittedFormTableColumns } from "_data/constants"
 import { ISubmittedForm } from "types/Form"
-import { sendMail, downloadPDF } from "lib/form-handler"
+import { sendMail, downloadPDF } from "lib/FormHandler"
 
 function formatForm(forms: any[]) {
 	return forms.map((form) => ({

@@ -6,7 +6,7 @@ import Select, { OptionsOrGroups } from "react-select"
 import { IField } from "types/FormInput"
 
 // Data...
-import { typeMap } from "_data/form-data"
+import { typeMap } from "_data/constants"
 
 const valuesFormatter = (options: Array<string> | string): any => {
 	if (Array.isArray(options)) {

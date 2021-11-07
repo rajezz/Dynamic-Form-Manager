@@ -9,7 +9,7 @@ import TextField from "@mui/material/TextField"
 import { IField } from "types/FormInput"
 
 // Data...
-import { INPUT_TYPE_MAP, TYPE_PARAGRAPH } from "_data/form-data"
+import { INPUT_TYPE_MAP, TYPE_PARAGRAPH } from "_data/constants"
 
 export default function InputText({
 	name,

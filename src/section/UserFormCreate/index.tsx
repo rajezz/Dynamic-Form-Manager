@@ -25,10 +25,10 @@ import FormBuilder from "section/FormBuilder"
 import { UserContext } from "section/UserContext"
 
 // libraries...
-import { getEmptyField, generateUUID, validateUserForm } from "lib/form-handler"
+import { getEmptyField, generateUUID, validateUserForm } from "lib/FormHandler"
 
 // Data...
-import { CONTAINED, OUTLINED } from "_data/form-data"
+import { CONTAINED, OUTLINED } from "_data/constants"
 
 function safeFetchArray(form: any, key: string, defaultValue: []) {
 	return form ? form[key] : defaultValue

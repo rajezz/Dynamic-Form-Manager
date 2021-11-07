@@ -20,14 +20,14 @@ import {
 	TYPE_DATE,
 	TYPE_ELEMENT_MAP,
 	CONTAINED
-} from "_data/form-data"
+} from "_data/constants"
 
 // Components...
 import InputCheckbox from "components/InputCheckbox"
 import InputRadio from "components/InputRadio"
 import InputText from "components/InputText"
 import InputSelect from "components/InputSelect"
-import { OUTLINED } from '../../_data/form-data';
+import { OUTLINED } from '../../_data/constants';
 
 export default function FormBuilder({
 	formName,

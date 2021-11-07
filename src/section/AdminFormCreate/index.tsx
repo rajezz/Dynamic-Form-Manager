@@ -18,76 +18,39 @@ import FieldListTable from "components/FieldListTable"
 import SnackBar from "components/SnackBar"
 
 // libraries...
-import { getEmptyField, generateUUID, validateForm } from "lib/form-handler"
+import { getEmptyField, generateUUID, validateForm } from "lib/FormHandler"
 
 // Data...
-import { CONTAINED, OUTLINED } from "_data/form-data"
+import {
+	CONTAINED,
+	OUTLINED,
+	REDUCER_ACTION_UPDATE_FORM,
+	REDUCER_ACTION_UPDATE,
+	REDUCER_ACTION_INSERT_FIELD
+} from "_data/constants"
 
 export default function AdminFormCreate({
-	currentForm,
+	form,
+	dispatch,
+	onSave,
 	onCancel
 }: {
-	currentForm?: IForm
+	form: IForm
+	dispatch: any
+	onSave: any
 	onCancel: any
 }) {
 	const router = useRouter()
-	const [form, setForm] = useState<IForm>({
-		id: generateUUID(),
-		name: "",
-		validity: new Date().toString(),
-		status: "",
-		accessibleUser: "",
-		fields: [],
-		createdAt: "",
-		updatedAt: ""
-	})
 
-	useEffect(() => {
-		if (currentForm) {
-			const formValues: any = JSON.parse(JSON.stringify(currentForm))
-
-			setForm((prevValue) => {
-				return formValues
-			})
-		}
-	}, [])
 	const [message, setMessage] = useState<string>("")
 	const [isSuccessMessage, toggleMessageType] = useState<boolean>(false)
 
-	const handleChange = (name: string, value: any) => {
-		setForm((prevValues: any) => ({ ...prevValues, [name]: value }))
-		console.log("handleChange called !! ", form)
-	}
-
-	function handleFieldChange(fieldIndex: number, key: string, value: string | boolean) {
-		setForm((prevValues) => ({
-			...prevValues,
-			fields: prevValues.fields?.map((field, i) => {
-				if (i === fieldIndex) {
-					return { ...field, [key]: value }
-				} else {
-					return field
-				}
-			})
-		}))
-	}
-
-	function handleOnDeletField(index: number) {
-		const deleteItemFromArray = (arr: any[], index: number): any[] => {
-			arr.splice(index, 1)
-			return arr
-		}
-		setForm((prevValues) => ({
-			...prevValues,
-			fields: deleteItemFromArray(prevValues.fields || [], index)
-		}))
-	}
-
-	function addField() {
-		setForm((prevValues) => ({
-			...prevValues,
-			fields: prevValues.fields?.concat(getEmptyField())
-		}))
+	const handleChange = (id: number, values: any) => {
+		dispatch({
+			type: REDUCER_ACTION_UPDATE_FORM,
+			id,
+			values
+		})
 	}
 
 	function storeInLocalstorage(form: IForm) {
@@ -97,7 +60,7 @@ export default function AdminFormCreate({
 			const parsedContent = JSON.parse(storedForms)
 			let isExist: boolean = false,
 				index: number = -1
-			
+
 			parsedContent.forEach((storedForm: any, i: number) => {
 				if (!isExist && storedForm.id === form.id) {
 					form.updatedAt = new Date().toISOString()
@@ -119,10 +82,11 @@ export default function AdminFormCreate({
 			contentToBeStored = JSON.stringify([form])
 		}
 		localStorage.setItem("forms", contentToBeStored)
+		dispatch({ type: REDUCER_ACTION_UPDATE, form })
 	}
 
 	function saveForm() {
-		const [valid, errors, updatedForm] = validateForm({ ...form })
+		const [valid, errors, updatedForm] = validateForm(form)
 		if (!valid) {
 			console.error(errors)
 			toggleMessageType(false)
@@ -134,7 +98,7 @@ export default function AdminFormCreate({
 			storeInLocalstorage(updatedForm)
 			toggleMessageType(true)
 			setMessage("Form created Successfully.")
-			router.reload()
+			onSave()
 		}
 	}
 
@@ -143,7 +107,9 @@ export default function AdminFormCreate({
 			<div className="row">
 				<InputText
 					id={1}
-					handleChange={(e: any) => handleChange("name", e.currentTarget.value)}
+					handleChange={(e: any) =>
+						handleChange(form.id, { name: e.currentTarget.value })
+					}
 					value={form["name"]}
 					label="Form name"
 					name="name"
@@ -154,7 +120,7 @@ export default function AdminFormCreate({
 					id={2}
 					handleChange={(e: any) => {
 						console.log(e)
-						handleChange("validity", e.target.value)
+						handleChange(form.id, { validity: e.target.value })
 					}}
 					value={form["validity"]}
 					label="Validity"
@@ -164,7 +130,7 @@ export default function AdminFormCreate({
 				/>
 				<InputSelect
 					id={3}
-					handleChange={(e: any) => handleChange("status", e.value)}
+					handleChange={(e: any) => handleChange(form.id, { status: e.value })}
 					value={form["status"]}
 					label="Form status"
 					name="status"
@@ -176,7 +142,9 @@ export default function AdminFormCreate({
 			<div className="row flex-start">
 				<MUIInputText
 					id={4}
-					handleChange={(e: any) => handleChange("accessibleUser", e.currentTarget.value)}
+					handleChange={(e: any) =>
+						handleChange(form.id, { accessibleUser: e.currentTarget.value })
+					}
 					value={form["accessibleUser"]}
 					label="Accessible User"
 					name="accessibleUser"
@@ -186,15 +154,18 @@ export default function AdminFormCreate({
 			</div>
 			<div className="field-list-panel">
 				<div className="btn-panel">
-					<Button variant={OUTLINED} onClick={addField}>
+					<Button
+						variant={OUTLINED}
+						onClick={() =>
+							dispatch({
+								type: REDUCER_ACTION_INSERT_FIELD
+							})
+						}
+					>
 						Add Field
 					</Button>
 				</div>
-				<FieldListTable
-					form={form}
-					handleChange={handleFieldChange}
-					onDelete={handleOnDeletField}
-				/>
+				<FieldListTable form={form} dispatch={dispatch} />
 				<div className="btn-panel">
 					<Button variant={CONTAINED} onClick={saveForm}>
 						Save Form
