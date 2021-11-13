@@ -5,6 +5,13 @@ import InputDate from "components/InputDate"
 import InputRadio from "components/InputRadio"
 import InputCheckbox from "components/InputCheckbox"
 
+// Types...
+import { IForm, INullForm, IState } from "types/Form"
+import { IField, INullField } from "types/FormInput"
+
+// libraries...
+import { generateUUID } from "lib/FormHandler"
+
 export const fieldTableColumns: Array<IFormTableColumn> = [
 	{ id: "label", label: "Label", minWidth: 170 },
 	{ id: "type", label: "Type", minWidth: 170 },
@@ -22,7 +29,7 @@ export const formTableColumns: Array<IFormTableColumn> = [
 	{ id: "accessibleUser", label: "Accessible User", minWidth: 100 },
 	{ id: "status", label: "Status", minWidth: 170 },
 	{ id: "createdAt", label: "Created At", minWidth: 100 },
-	{ id: "updatedAt", label: "updated At", minWidth: 100 },
+	{ id: "updatedAt", label: "updated At", minWidth: 100 }
 ]
 export const submittedFormTableColumns: Array<IFormTableColumn> = [
 	{ id: "submittedUser", label: "Submitted User", minWidth: 170 },
@@ -36,7 +43,7 @@ export const userFormTableColumns: Array<IFormTableColumn> = [
 	{ id: "formName", label: "Form Name", minWidth: 170 },
 	{ id: "formId", label: "Form Id", minWidth: 100 },
 	{ id: "createdAt", label: "Created At", minWidth: 100 },
-	{ id: "updatedAt", label: "Updated At", minWidth: 100 },
+	{ id: "updatedAt", label: "Updated At", minWidth: 100 }
 ]
 
 export const TYPE_TEXT: string = "TEXT"
@@ -54,14 +61,13 @@ export const TYPE_PASSWORD: string = "PASSWORD"
 
 export const REDUCER_ACTION_INSERT: string = "INSERT"
 export const REDUCER_ACTION_UPDATE: string = "UPDATE"
-export const REDUCER_ACTION_UPDATE_FORM: string = "UPDATE-FORM"
 export const REDUCER_ACTION_DELETE: string = "DELETE"
+export const REDUCER_ACTION_UPDATE_FORM: string = "UPDATE-FORM"
 export const REDUCER_ACTION_SELECT: string = "SELECT"
 export const REDUCER_ACTION_UNSELECT: string = "UNSELECT"
 export const REDUCER_ACTION_INSERT_FIELD: string = "INSERT-FIELD"
 export const REDUCER_ACTION_UPDATE_FIELD: string = "UPDATE-FIELD"
 export const REDUCER_ACTION_DELETE_FIELD: string = "DELETE-FIELD"
-
 
 //{ [index: string]: JSX.Element }
 export const TYPE_ELEMENT_MAP: any = {
@@ -83,7 +89,7 @@ export const INPUT_TYPE_MAP: any = {
 	[TYPE_EMAIL]: "email",
 	[TYPE_PHONE]: "tel",
 	[TYPE_PIN_CODE]: "number",
-	[TYPE_PASSWORD]: "password",
+	[TYPE_PASSWORD]: "password"
 }
 //{ [index: string]: JSX.Element }
 export const TYPE_REGEX_MAP: any = {
@@ -93,7 +99,7 @@ export const TYPE_REGEX_MAP: any = {
 	[TYPE_EMAIL]: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
 	[TYPE_PHONE]: /^[+]*[0-9]{0,3}[0-9]{10}$/,
 	[TYPE_PIN_CODE]: /^[0-9]{6}$/,
-	[TYPE_RADIO]: /^[A-Za-z0-9`'"/!*&%#$-_ ]+$/,
+	[TYPE_RADIO]: /^[A-Za-z0-9`'"/!*&%#$-_ ]+$/
 }
 export const typeMap: any = {
 	TEXT: {},
@@ -117,7 +123,7 @@ export const typeMap: any = {
 	MULTI_DROPDOWN: {},
 	DATE: {},
 	CHECKBOX: {},
-	RADIO: {},
+	RADIO: {}
 }
 
 export const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
@@ -138,3 +144,29 @@ export const nameLabelMap: any = {
 	[FORM_SUBMITTED]: "Submitted Form"
 }
 
+export const getEmptyField = (): IField | INullField => ({
+	id: generateUUID(),
+	name: "",
+	value: "",
+	label: "",
+	type: "",
+	handleChange: null,
+	required: false,
+	public: false,
+	printable: false
+})
+
+export const getEmptyForm = (): INullForm | IForm => ({
+	name: "",
+	id: generateUUID(),
+	fields: [],
+	status: "",
+	validity: new Date().toString(),
+	accessibleUser: "",
+	createdAt: "",
+	updatedAt: ""
+})
+
+export function getInitialStoreState(): IState {
+	return { forms:[], selectedForm: getEmptyForm() }
+}

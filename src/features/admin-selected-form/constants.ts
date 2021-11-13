@@ -1,0 +1,3 @@
+export const SELECT: string = "ADMIN/SELECTED-FORM/SELECT"
+export const UPDATE_FORM: string = "ADMIN/SELECTED-FORM/UPDATE-FORM"
+export const UNSELECT: string = "ADMIN/SELECTED-FORM/UNSELECT"

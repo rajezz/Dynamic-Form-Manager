@@ -14,16 +14,6 @@ import InputText from "components/InputText"
 import InputSelect from "components/InputSelect"
 
 const Home: NextPage = () => {
-	/* const checkboxValues = formInputsCheckbox.reduce<any>(
-		(prevValue, input) => ({ ...prevValue, [input.name]: input.value }),
-		{}
-	)
-	const radioValues = formInputsRadio.reduce<any>(
-		(prevValue, input) => ({ ...prevValue, [input.name]: input.value }),
-		{}
-	) */
-
-	// console.log("Home rendering !! ", checkboxValues, radioValues)
 	const [values, setValues] = useState<any>({
 	})
 

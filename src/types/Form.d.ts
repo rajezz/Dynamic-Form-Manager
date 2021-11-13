@@ -23,9 +23,9 @@ export interface INullForm {
 	updatedAt: ""
 }
 
-export interface IAdminFormState {
-	forms: Array<IForm | INullForm>
-	selectedForm: IForm | INullForm
+export interface IState {
+	adminFormList: Array<IForm | INullForm>
+	adminSelectedForm: IForm | INullForm
 }
 
 export interface ISubmittedForm {
