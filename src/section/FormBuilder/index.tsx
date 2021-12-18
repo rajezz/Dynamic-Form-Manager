@@ -27,7 +27,7 @@ import InputCheckbox from "components/InputCheckbox"
 import InputRadio from "components/InputRadio"
 import InputText from "components/InputText"
 import InputSelect from "components/InputSelect"
-import { OUTLINED } from '../../_data/constants';
+import { OUTLINED } from "../../_data/constants"
 
 export default function FormBuilder({
 	formName,
@@ -42,39 +42,6 @@ export default function FormBuilder({
 	onSave: any
 	onCancel: any
 }) {
-	/* function getRequiredField({ field }: { field: IField }) {
-        switch (field.type) {
-			case TYPE_TEXT:
-			case TYPE_PARAGRAPH:
-			case TYPE_NUMBER:
-			case TYPE_EMAIL:
-			case TYPE_PHONE:
-			case TYPE_PIN_CODE:
-				break
-			case TYPE_DROPDOWN:
-			case TYPE_MULTI_DROPDOWN:
-				break
-			case TYPE_DATE:
-				break
-            case TYPE_CHECKBOX:
-                return (
-					<InputCheckbox
-						handleChange={(e: any) => onChange(field.name, e.currentTarget.checked)}
-						{...field}
-					/>
-				) 
-				break
-            case TYPE_RADIO:
-                return (
-					<InputRadio
-						handleChange={(e: any) => onChange(field.name, e.currentTarget.value)}
-						{...field}
-					/>
-				)
-				break
-		}
-    } */
-
 	function handleChange(event: any, field: IField, i: number) {
 		let value: any = null
 		switch (field.type) {
@@ -102,7 +69,7 @@ export default function FormBuilder({
 	function getRequiredField(field: IField, i: number) {
 		if (field) {
 			const InputElement = TYPE_ELEMENT_MAP[field.type]
-			return <InputElement handleChange={(e: any) => handleChange(e, field, i)} {...field} />
+			return <InputElement {...field} handleChange={(e: any) => handleChange(e, field, i)} />
 		}
 	}
 	return (

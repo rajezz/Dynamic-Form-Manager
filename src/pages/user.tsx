@@ -3,8 +3,8 @@ import { useRouter } from "next/router"
 
 // Layouts...
 import Layout from "layout/Layout"
-import Profile from "section/Profile"
-import Title from "section/Title"
+import Profile from "section/ProfileSection"
+import Title from "section/TitleSection"
 import UserContent from "section/UserContent"
 import {UserProvider} from "section/UserContext"
 

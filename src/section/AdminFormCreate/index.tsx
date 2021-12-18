@@ -18,7 +18,7 @@ import FieldListTable from "components/FieldListTable"
 import SnackBar from "components/SnackBar"
 
 // libraries...
-import { getEmptyField, generateUUID, validateForm } from "lib/FormHandler"
+import { validateForm } from "lib/FormHandler"
 
 // Data...
 import {
@@ -32,13 +32,11 @@ import {
 export default function AdminFormCreate({
 	form,
 	dispatch,
-	onSave,
-	onCancel
+	onSave
 }: {
 	form: IForm
 	dispatch: any
 	onSave: any
-	onCancel: any
 }) {
 	const router = useRouter()
 

@@ -9,8 +9,11 @@ import AdminFormCreate from "section/AdminFormCreate"
 
 // Library components...
 import Button from "@mui/material/Button"
-import { IForm, IAdminFormState } from "types/Form"
-import { reducer, getEmptyAdminFormState, emptyForm } from "lib/AdminFormReducer"
+
+// lib...
+import { reducer } from "lib/AdminFormReducer"
+import { getFormById } from "lib/FormHandler"
+
 // Data...
 import {
 	OUTLINED,
@@ -18,10 +21,10 @@ import {
 	FORM_CREATE,
 	formTableColumns,
 	REDUCER_ACTION_INSERT,
-	REDUCER_ACTION_UPDATE,
-	REDUCER_ACTION_DELETE,
 	REDUCER_ACTION_SELECT,
-	REDUCER_ACTION_UNSELECT
+	REDUCER_ACTION_UNSELECT,
+	getEmptyAdminFormState,
+	getEmptyForm
 } from "_data/constants"
 
 function formatForm(forms: any[]) {
@@ -41,7 +44,7 @@ export default function AdminFormList() {
 	const router = useRouter()
 	const [state, dispatch] = useReducer<Reducer<any, any>, any>(
 		reducer,
-		{ forms: [], selectedForm: emptyForm },
+		{ forms: [], selectedForm: getEmptyForm() },
 		getEmptyAdminFormState
 	)
 
@@ -64,7 +67,20 @@ export default function AdminFormList() {
 			setActionBtnText("Cancel")
 		} else {
 			setPage(FORM_LIST)
+			dispatch({ type: REDUCER_ACTION_UNSELECT })
 			setActionBtnText("Create Form")
+		}
+	}
+
+	function onUpdateClick(id: number) {
+		const form = getFormById(state.forms, id)
+
+		if (form) {
+			dispatch({
+				type: REDUCER_ACTION_SELECT,
+				form
+			})
+			togglePage()
 		}
 	}
 
@@ -81,6 +97,7 @@ export default function AdminFormList() {
 						rows={formatForm(state.forms)}
 						columns={formTableColumns}
 						dispatch={dispatch}
+						onUpdateClick={onUpdateClick}
 					/>
 				)
 			case FORM_CREATE:
@@ -89,7 +106,6 @@ export default function AdminFormList() {
 						form={state.selectedForm}
 						dispatch={dispatch}
 						onSave={switchPage}
-						onCancel={switchPage}
 					/>
 				)
 		}

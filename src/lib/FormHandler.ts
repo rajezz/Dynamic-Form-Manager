@@ -104,6 +104,19 @@ export function generateUUID(): number {
 	return Math.floor(Math.random() * (9999 - 1000)) + 1000
 }
 
+export function formatForm(forms: any[]) {
+	return forms.map((form) => ({
+		submittedUser: form.submittedUser,
+		formName: form.formName,
+		formId: form.formId,
+		createdAt: form.createdAt ? new Date(form.createdAt).toLocaleString() : "N/A",
+		updatedAt: form.updatedAt ? new Date(form.updatedAt)?.toLocaleString() : "N/A",
+		id: form.id
+	}))
+}
+
+export const getFormById = (forms: any[], id: number) => forms.filter((form) => form.id === id)[0]
+
 export function validateForm(form: IForm): [boolean, string[], IForm] {
 	console.log("Form to be saved > ", form)
 	let errors: string[] = []

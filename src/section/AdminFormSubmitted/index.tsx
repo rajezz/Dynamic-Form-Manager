@@ -10,20 +10,7 @@ import InputDialog from "components/InputDialog"
 import Button from "@mui/material/Button"
 import { submittedFormTableColumns } from "_data/constants"
 import { ISubmittedForm } from "types/Form"
-import { sendMail, downloadPDF } from "lib/FormHandler"
-
-function formatForm(forms: any[]) {
-	return forms.map((form) => ({
-		submittedUser: form.submittedUser,
-		formName: form.formName,
-		formId: form.formId,
-		createdAt: form.createdAt ? new Date(form.createdAt).toLocaleString() : "N/A",
-		updatedAt: form.updatedAt ? new Date(form.updatedAt)?.toLocaleString() : "N/A",
-		id: form.id
-	}))
-}
-
-const getFormById = (forms: any[], id: number) => forms.filter((form) => form.id === id)[0]
+import { sendMail, downloadPDF, formatForm, getFormById } from "lib/FormHandler"
 
 export default function AdminFormSubmitted() {
 	const router = useRouter()
@@ -68,7 +55,7 @@ export default function AdminFormSubmitted() {
 	async function onDownloadClick(id: number) {
 		try {
 			const currentForm = submittedForms[id]
-			const response = await downloadPDF({...currentForm})
+			const response = await downloadPDF({ ...currentForm })
 		} catch (error) {
 			console.error("error >> ", error)
 		}

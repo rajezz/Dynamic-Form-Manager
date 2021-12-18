@@ -16,8 +16,8 @@ import {
 	REDUCER_ACTION_UNSELECT
 } from "_data/constants"
 
-export default function FormListTable({ rows, columns, dispatch }: any) {
-	function onDelete(id:number) {
+export default function FormListTable({ rows, columns, dispatch, onUpdateClick }: any) {
+	function onDelete(id: number) {
 		const response = confirm("Are you sure of deleting the form?")
 		if (response) {
 			dispatch({ type: REDUCER_ACTION_DELETE, id })
@@ -65,9 +65,7 @@ export default function FormListTable({ rows, columns, dispatch }: any) {
 									<button
 										title="Edit Form"
 										className="icon-btn update"
-										onClick={() =>
-											dispatch({ type: REDUCER_ACTION_SELECT, form: row })
-										}
+										onClick={() => onUpdateClick(row.id)}
 									>
 										<EditIcon />
 									</button>
